@@ -10,6 +10,5 @@ namespace EMedicineBE.Data
             
         }
         public DbSet<Users> Users {get; set;}
-    }
-    
+    }   
 }
