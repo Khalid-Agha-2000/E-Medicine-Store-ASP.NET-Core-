@@ -35,5 +35,26 @@ namespace EMedicineBE.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("login")]
+        public Response login(Users users)
+        {
+            Response response = new Response();
+
+            var existingUser = _context.Users
+                .FirstOrDefault(u => u.Email == users.Email && u.Password == users.Password);
+            
+            if(existingUser != null)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Valid User";
+            } else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Invalid user";
+            }
+            return response;
+        }
+
     }
 }
