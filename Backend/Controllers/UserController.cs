@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using EMedicineBE.Data;
 using EMedicineBE.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace EMedicineBE.Controllers
 {
@@ -52,6 +53,29 @@ namespace EMedicineBE.Controllers
             {
                 response.StatusCode = 100;
                 response.StatusMessage = "Invalid user";
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("viewUser")]
+        public Response viewUser(Users users)
+        {
+            Response response = new Response();
+
+            var existingUser = _context.Users
+                .FirstOrDefault(u => u.ID == users.ID);
+            if(existingUser != null)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "User exists!";
+                response.user = existingUser;
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "User does not exist!";
+                response.user = null;
             }
             return response;
         }
