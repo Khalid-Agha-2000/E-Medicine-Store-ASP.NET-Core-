@@ -80,5 +80,41 @@ namespace EMedicineBE.Controllers
             return response;
         }
 
+
+        [HttpPost]
+        [Route("editUser")]
+        public Response editUser(Users users)
+        {
+            Response response = new Response();
+
+            var currentUser = _context.Users
+                .FirstOrDefault(user => user.ID == users.ID);
+            
+            if(currentUser == null)
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Update failed! Please try later";
+                return response;
+            }
+            
+            currentUser.Email = users.Email;
+            currentUser.FirstName = users.FirstName;
+            currentUser.LastName = users.LastName;
+            currentUser.Password = users.Password;
+            int i = _context.SaveChanges();
+
+            response.user = currentUser;
+            if(i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Record updated successfully!";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Update failed! Please try later";
+            }
+            return response;
+        }
     }
 }
