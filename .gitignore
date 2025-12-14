@@ -10,3 +10,9 @@ build/
 *.log
 *.mdf
 *.ldf
+
+
+bin/
+obj/
+.vscode/
+*.log

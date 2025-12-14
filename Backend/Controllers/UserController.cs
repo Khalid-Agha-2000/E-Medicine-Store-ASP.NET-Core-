@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using EMedicineBE.Data;
 using EMedicineBE.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace EMedicineBE.Controllers
 {

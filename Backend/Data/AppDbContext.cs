@@ -10,5 +10,10 @@ namespace EMedicineBE.Data
             
         }
         public DbSet<Users> Users {get; set;}
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Medicines> Medicines { get; set; }
+        public DbSet<Orders> Orders { get; set; }
+        public DbSet<OrderItems> OrderItems { get; set; }
+
     }   
 }
