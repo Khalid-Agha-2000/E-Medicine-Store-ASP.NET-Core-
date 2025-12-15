@@ -34,5 +34,23 @@ namespace EMedicineBE.Controllers
             response.listCart = new List<Cart> {carts};
             return response;
         }
+
+        [HttpDelete]
+        [Route("removeFromCart")]
+        public Response removeFromCart(Cart carts)
+        {
+            Response response = new Response();
+            var item = _context.Carts
+                .FirstOrDefault(c => c.UserId == carts.UserId && c.MedicineID == carts.MedicineID);
+            if(item != null)
+            {
+                item.Quantity -= carts.Quantity;
+                item.TotalPrice -= (carts.Quantity * carts.UnitPrice);
+                if(item.Quantity < 1) _context.Carts.Remove(item);
+                _context.SaveChanges();
+                response.listCart = new List<Cart> {item};
+            }
+            return response;
+        }
     }
 }
