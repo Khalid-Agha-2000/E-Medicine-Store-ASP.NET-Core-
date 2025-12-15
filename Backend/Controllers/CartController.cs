@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using EMedicineBE.Data;
 using EMedicineBE.Models;
+using Microsoft.VisualBasic;
 
 namespace EMedicineBE.Controllers
 {
@@ -50,6 +51,51 @@ namespace EMedicineBE.Controllers
                 _context.SaveChanges();
                 response.listCart = new List<Cart> {item};
             }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("placeAnOrder")]
+        public Response placeAnOrder(Users users)
+        {
+            Response response = new Response();
+
+            var cartItems = _context.Carts
+                .Where(c => c.UserId == users.ID).ToList();
+
+            if(cartItems.Count == 0)
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Cart is empty";
+                return response;
+            }
+
+            Orders order = new Orders
+            {
+                UserId = users.ID,
+                OrderTotal = cartItems.Sum(c => c.TotalPrice)
+            };
+
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            foreach(var item in cartItems)
+            {
+                OrderItems orderitem = new OrderItems
+                {
+                    OrderID = order.ID,
+                    MedicineID = item.MedicineID,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice,
+                    TotalPrice = item.TotalPrice
+                };
+                _context.OrderItems.Add(orderitem);
+            }
+            _context.Carts.RemoveRange(cartItems);
+            _context.SaveChanges();
+            response.StatusCode = 200;
+            response.StatusMessage = "Order placed successfully";
+            response.order = order;
             return response;
         }
     }
