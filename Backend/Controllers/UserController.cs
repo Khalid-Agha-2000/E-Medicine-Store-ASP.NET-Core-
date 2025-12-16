@@ -115,5 +115,30 @@ namespace EMedicineBE.Controllers
             }
             return response;
         }
+
+        [HttpGet]
+        [Route("orderList")]
+        public Response orderList(int userId)
+        {
+            Response response = new Response();
+
+            var orders = _context.Orders
+                .Where(o => o.UserId == userId).ToList();
+            
+            if(orders.Count > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Orders details fetched";
+                response.listOrders = orders;
+                return response;
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "No orders found";
+            }
+
+            return response;
+        }
     }
 }
