@@ -13,5 +13,16 @@ namespace EMedicineBE.Controllers
         {
             _context = context;
         }
+
+        [HttpGet]
+        [Route("getMedicine/{id}")]
+        public Response getMedicines(int id)
+        {
+            Response response = new Response();
+            var medicine = _context.Medicines
+                .FirstOrDefault(m => m.ID == id);
+            response.medicine = medicine;
+            return response;
+        }
     }
 }
