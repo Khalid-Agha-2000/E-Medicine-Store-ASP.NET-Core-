@@ -24,5 +24,16 @@ namespace EMedicineBE.Controllers
             response.medicine = medicine;
             return response;
         }
+
+        [HttpGet]
+        [Route("editMedicine/{id}")]
+        public Response editMedicine(int id)
+        {
+            Response response = new Response();
+            var medicine = _context.Medicines
+                .FirstOrDefault(m => m.ID == id);
+            response.medicine = medicine;
+            return response;
+        }
     }
 }
