@@ -1,4 +1,3 @@
-import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Login from './Login';
 import Registration from './Registration';
@@ -7,6 +6,7 @@ import Orders from './users/Orders';
 import Profile from './users/Profile';
 import Cart from './users/Cart';
 import MedicineDisplay from './users/MedicineDisplay';
+import Header from './users/Header';
 
 import AdminDashboard from './admin/AdminDashboard';
 import AdminOrders from './admin/AdminOrders';
@@ -18,6 +18,7 @@ import Medicine from './admin/Medicine';
 export default function RouterPage() {
     return (
         <Router>
+            <Header />
             <Routes>
                 <Route path='/' element={<Login/>}/>
                 <Route path='/registration' element={<Registration/>}/>
