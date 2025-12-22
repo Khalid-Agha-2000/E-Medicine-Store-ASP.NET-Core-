@@ -13,8 +13,6 @@ import AdminOrders from './admin/AdminOrders';
 import CustomerList from './admin/CustomerList';
 import Medicine from './admin/Medicine';
 
-
-
 export default function RouterPage() {
     return (
         <Router>
@@ -26,7 +24,7 @@ export default function RouterPage() {
                 <Route path='/orders' element={<Orders/>}/>
                 <Route path='/profile' element={<Profile/>}/>
                 <Route path='/cart' element={<Cart/>}/>
-                <Route path='/products' element={<MedicineDisplay/>}/>
+                <Route path='/shop' element={<MedicineDisplay/>}/>
 
                 <Route path='/admindashboard' element={<AdminDashboard/>}/>
                 <Route path='/adminorders' element={<AdminOrders/>}/>
