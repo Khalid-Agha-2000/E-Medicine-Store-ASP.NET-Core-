@@ -32,5 +32,5 @@ export default function RouterPage() {
                 <Route path='/medicine' element={<Medicine/>}/>
             </Routes>
         </Router>
-    )
+    );
 }
