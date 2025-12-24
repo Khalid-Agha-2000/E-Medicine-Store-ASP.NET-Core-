@@ -154,5 +154,5 @@ export default function MedicineDisplay() {
                 </div>
             </div>
         </section>
-    )
+    );
 }
