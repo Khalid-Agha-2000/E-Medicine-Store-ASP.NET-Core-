@@ -12,14 +12,15 @@ import OrderDetails from './users/OrdersDetails';
 import ManageMedicines from './admin/ManageMedicines';
 import AdminOrders from './admin/AdminOrders';
 import CustomerList from './admin/CustomerList';
-import Medicine from './admin/Medicine';
+// import Medicine from './admin/Medicine';
+import AddEditMedicine from './admin/AddEditMedicine';
 
 export default function RouterPage() {
     return (
         <Router>
             <Header />
             <Routes>
-                <Route path='/' element={<Login/>}/>
+                <Route path='/' element={<MedicineDisplay/>}/>
                 <Route path='/registration' element={<Registration/>}/>
                 <Route path='/dashboard' element={<Dashboard/>}/>
                 <Route path='/orders' element={<Orders/>}/>
@@ -29,9 +30,11 @@ export default function RouterPage() {
                 <Route path='/orderdetails' element={<OrderDetails/>}/>
 
                 <Route path='/managemedicines' element={<ManageMedicines/>}/>
+                <Route path='/login' element={<Login/>}/>
                 <Route path='/adminorders' element={<AdminOrders/>}/>
                 <Route path='/customerlist' element={<CustomerList/>}/>
-                <Route path='/medicine' element={<Medicine/>}/>
+                {/* <Route path='/medicine' element={<Medicine/>}/> */}
+                <Route path='/addeditmedicine' element={<AddEditMedicine/>}/>
             </Routes>
         </Router>
     );
