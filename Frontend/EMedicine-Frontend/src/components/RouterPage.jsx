@@ -9,7 +9,7 @@ import MedicineDisplay from './users/MedicineDisplay';
 import Header from './users/Header';
 import OrderDetails from './users/OrdersDetails';
 
-import AdminDashboard from './admin/AdminDashboard';
+import ManageMedicines from './admin/ManageMedicines';
 import AdminOrders from './admin/AdminOrders';
 import CustomerList from './admin/CustomerList';
 import Medicine from './admin/Medicine';
@@ -28,7 +28,7 @@ export default function RouterPage() {
                 <Route path='/shop' element={<MedicineDisplay/>}/>
                 <Route path='/orderdetails' element={<OrderDetails/>}/>
 
-                <Route path='/admindashboard' element={<AdminDashboard/>}/>
+                <Route path='/managemedicines' element={<ManageMedicines/>}/>
                 <Route path='/adminorders' element={<AdminOrders/>}/>
                 <Route path='/customerlist' element={<CustomerList/>}/>
                 <Route path='/medicine' element={<Medicine/>}/>
