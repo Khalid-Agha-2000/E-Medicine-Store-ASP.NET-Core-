@@ -9,6 +9,7 @@ import MedicineDisplay from './users/MedicineDisplay';
 import Header from './users/Header';
 import OrderDetails from './users/OrdersDetails';
 import MedicineDetails from './users/MedicineDetails';
+import Footer from './Footer';
 
 import ManageMedicines from './admin/ManageMedicines';
 import AdminOrders from './admin/AdminOrders';
@@ -38,6 +39,7 @@ export default function RouterPage() {
                 {/* <Route path='/medicine' element={<Medicine/>}/> */}
                 <Route path='/addeditmedicine' element={<AddEditMedicine/>}/>
             </Routes>
+            <Footer/>
         </Router>
     );
 }
