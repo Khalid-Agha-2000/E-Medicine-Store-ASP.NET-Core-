@@ -20,26 +20,30 @@ import AddEditMedicine from './admin/AddEditMedicine';
 export default function RouterPage() {
     return (
         <Router>
+            <div className="d-flex flex-column min-vh-100">
             <Header />
-            <Routes>
-                <Route path='/' element={<MedicineDisplay/>}/>
-                <Route path='/registration' element={<Registration/>}/>
-                <Route path='/dashboard' element={<Dashboard/>}/>
-                <Route path='/orders' element={<Orders/>}/>
-                <Route path='/profile' element={<Profile/>}/>
-                <Route path='/cart' element={<Cart/>}/>
-                <Route path='/shop' element={<MedicineDisplay/>}/>
-                <Route path='/orderdetails' element={<OrderDetails/>}/>
-                <Route path='/medicinedetails' element={<MedicineDetails/>}/>
+            <main className="flex-grow-1">
+                <Routes>
+                    <Route path='/' element={<MedicineDisplay/>}/>
+                    <Route path='/registration' element={<Registration/>}/>
+                    <Route path='/dashboard' element={<Dashboard/>}/>
+                    <Route path='/orders' element={<Orders/>}/>
+                    <Route path='/profile' element={<Profile/>}/>
+                    <Route path='/cart' element={<Cart/>}/>
+                    <Route path='/shop' element={<MedicineDisplay/>}/>
+                    <Route path='/orderdetails' element={<OrderDetails/>}/>
+                    <Route path='/medicinedetails' element={<MedicineDetails/>}/>
 
-                <Route path='/managemedicines' element={<ManageMedicines/>}/>
-                <Route path='/login' element={<Login/>}/>
-                <Route path='/adminorders' element={<AdminOrders/>}/>
-                <Route path='/customerlist' element={<CustomerList/>}/>
-                {/* <Route path='/medicine' element={<Medicine/>}/> */}
-                <Route path='/addeditmedicine' element={<AddEditMedicine/>}/>
-            </Routes>
+                    <Route path='/managemedicines' element={<ManageMedicines/>}/>
+                    <Route path='/login' element={<Login/>}/>
+                    <Route path='/adminorders' element={<AdminOrders/>}/>
+                    <Route path='/customerlist' element={<CustomerList/>}/>
+                    {/* <Route path='/medicine' element={<Medicine/>}/> */}
+                    <Route path='/addeditmedicine' element={<AddEditMedicine/>}/>
+                </Routes>
+                </main>
             <Footer/>
+            </div>
         </Router>
     );
 }

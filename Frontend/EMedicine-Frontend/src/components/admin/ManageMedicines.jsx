@@ -9,7 +9,7 @@ export default function AdminDashboard() {
     ];
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-4 page-content">
         <div className="d-flex justify-content-between align-items-center mb-3">
             <h4 className="mb-0">Manage Medicines</h4>
             <button className="btn btn-success">

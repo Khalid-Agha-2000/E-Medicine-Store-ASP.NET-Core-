@@ -1,6 +1,6 @@
 export default function Profile() {
     return (
-        <div className="container my-5">
+        <div className="container my-5 page-content">
             <h2 className="text-center mb-4">My Profile</h2>
 
             <div className="row justify-content-center">

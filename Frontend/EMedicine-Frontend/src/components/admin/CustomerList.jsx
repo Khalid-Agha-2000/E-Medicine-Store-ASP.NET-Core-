@@ -6,7 +6,7 @@ export default function CustomerList() {
     ];
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-4 page-content">
             <h4 className="mb-3">Manage Customers</h4>
 
             <table className="table table-bordered table-hover">

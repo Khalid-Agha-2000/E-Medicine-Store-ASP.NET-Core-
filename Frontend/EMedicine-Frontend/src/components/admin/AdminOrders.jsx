@@ -1,6 +1,6 @@
 export default function AdminOrders() {
     return (
-        <div className="container my-5">
+        <div className="container my-5 page-content">
             <h2 className="text-center mb-4">Manage Orders</h2>
 
             <div className="table-responsive">

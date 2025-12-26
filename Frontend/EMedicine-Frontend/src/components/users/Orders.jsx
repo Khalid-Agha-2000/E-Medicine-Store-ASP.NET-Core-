@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Orders() {
     return (
-        <div className="container my-5">
+        <div className="container my-5 page-content">
             <h2 className="text-center mb-4">Your Orders</h2>
             <div className="table-responsive">
                 <table className="table table-bordered table-hover text-center">

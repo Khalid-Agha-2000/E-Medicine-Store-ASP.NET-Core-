@@ -4,7 +4,7 @@ export default function Footer() {
             <div className="container py-4">
                 <div className="row">
 
-                    <div className="col-md-6 px-4">
+                    <div className="col-md-6 px-5">
                         <h5 className="mb-3">EMedicine</h5>
                         <p className="mb-2">
                             EMedicine is a simple online pharmacy platform built to
@@ -16,15 +16,16 @@ export default function Footer() {
                         </p>
                     </div>
 
-                    <div className="col-md-6 px-4">
-                        <h5 className="mb-3">Quick Links</h5>
-                        <p className="mb-2">Home</p>
-                        <p className="mb-2">Shop</p>
-                        <p className="mb-2">Cart</p>
-                        <p className="mb-2">Orders</p>
-                        <p className="mb-0">Profile</p>
+                    <div className="col-md-6">
+                        <div className="ms-auto" style={{ maxWidth: '350px' }}>
+                            <h5 className="mb-3">Quick Links</h5>
+                            <p className="mb-2">Home</p>
+                            <p className="mb-2">Shop</p>
+                            <p className="mb-2">Cart</p>
+                            <p className="mb-2">Orders</p>
+                            <p className="mb-0">Profile</p>
+                        </div>
                     </div>
-
                 </div>
 
                 <hr className="border-light my-3" />
