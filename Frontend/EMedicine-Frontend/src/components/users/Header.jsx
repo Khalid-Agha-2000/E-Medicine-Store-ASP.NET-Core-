@@ -19,7 +19,7 @@ export default function Header() {
                         <a className="nav-link" href="/cart">Cart</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/adminorders">Orders</a>
+                        <a className="nav-link" href="/orders">Orders</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="managemedicines">Manage Medicines</a>
