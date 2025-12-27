@@ -4,7 +4,7 @@ using EMedicineBE.Models;
 
 namespace EMedicineBE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -19,6 +19,10 @@ namespace EMedicineBE.Controllers
         public Response register(Users users)
         {
             Response response = new Response();
+            users.CreatedOn = DateTime.Now;
+            users.Status = 1;
+            users.Fund = 0;
+            users.Type = "user";
             _context.Users.Add(users);
             int result = _context.SaveChanges();
             if(result > 0)
