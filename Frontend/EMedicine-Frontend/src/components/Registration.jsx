@@ -1,6 +1,42 @@
+import { useState } from "react";
 import "../styles/Registration.css";
 
 export default function Registration() {
+
+    const [formData, setFormData] = useState({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        terms: false,
+    });
+
+    const handleChange = (e) => {
+        const {name, value, type, checked} = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value
+        });
+    };
+
+    const handleRegister = () => {
+        if(!formData.terms) {
+            alert('You must agree to the terms');
+            return;
+        }
+
+        fetch("http://localhost:5001/User/registration", {
+            method: "POST",
+            headers: {"Content-type": "application/json"},
+            body: JSON.stringify(formData)
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.error(err));
+    };
+
+    
+
     return (
         <section className="registration-section d-flex align-items-center mt-5">
             <div className="container-fluid">
@@ -18,10 +54,12 @@ export default function Registration() {
 
                             <div className="form-outline mb-3">
                                 <input
+                                    name="firstname"
                                     type="text"
                                     id="firstName"
                                     className="form-control form-control-lg"
                                     placeholder="Enter your first name"
+                                    onChange={handleChange}
                                 />
                                 <label className="form-label" htmlFor="firstName">
                                     First Name
@@ -29,10 +67,12 @@ export default function Registration() {
                             </div>
                             <div className="form-outline mb-3">
                                 <input
+                                    name="lastname"
                                     type="text"
                                     id="lastName"
                                     className="form-control form-control-lg"
                                     placeholder="Enter your last name"
+                                    onChange={handleChange}
                                 />
                                 <label className="form-label" htmlFor="lastName">
                                     Last Name
@@ -40,10 +80,12 @@ export default function Registration() {
                             </div>
                             <div className="form-outline mb-3">
                                 <input
+                                    name="email"
                                     type="email"
                                     id="email"
                                     className="form-control form-control-lg"
                                     placeholder="Enter a valid email address"
+                                    onChange={handleChange}
                                 />
                                 <label className="form-label" htmlFor="email">
                                     Email address
@@ -51,10 +93,12 @@ export default function Registration() {
                             </div>
                             <div className="form-outline mb-3">
                                 <input
+                                    name="password"
                                     type="password"
                                     id="password"
                                     className="form-control form-control-lg"
                                     placeholder="Enter password"
+                                    onChange={handleChange}
                                 />
                                 <label className="form-label" htmlFor="password">
                                     Password
@@ -62,9 +106,11 @@ export default function Registration() {
                             </div>
                             <div className="form-check mb-4">
                                 <input
+                                    name="terms"
                                     className="form-check-input me-2"
                                     type="checkbox"
                                     id="termsCheck"
+                                    onChange={handleChange}
                                 />
                                 <label className="form-check-label" htmlFor="termsCheck">
                                     I agree to the terms and conditions
@@ -75,6 +121,7 @@ export default function Registration() {
                                     type="button"
                                     className="btn btn-success btn-lg"
                                     style={{ paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
+                                    onClick={handleRegister}
                                 >
                                     Register
                                 </button>
