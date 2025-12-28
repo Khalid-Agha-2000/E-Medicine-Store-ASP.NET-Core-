@@ -60,6 +60,25 @@ namespace EMedicineBE.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("shop")]
+        public Response shop()
+        {
+            Response response = new Response();
+            response.listMedicines = _context.Medicines.ToList();
+            if(response.listMedicines.Count() > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Medicines";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "No medicines found";
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("viewUser")]
         public Response viewUser(Users users)
