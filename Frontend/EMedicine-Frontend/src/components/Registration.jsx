@@ -1,13 +1,16 @@
 import { useState } from "react";
 import "../styles/Registration.css";
+import {useNavigate} from "react-router-dom";
+
 
 export default function Registration() {
+const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
+        FirstName: "",
+        LastName: "",
+        Email: "",
+        Password: "",
         terms: false,
     });
 
@@ -31,7 +34,14 @@ export default function Registration() {
             body: JSON.stringify(formData)
         })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+            console.log(data);
+            if(data.statusCode === 200) {
+                navigate("/shop");
+            } else {
+                alert("Registration Failed");
+            }
+        })
         .catch(err => console.error(err));
     };
 
@@ -54,7 +64,7 @@ export default function Registration() {
 
                             <div className="form-outline mb-3">
                                 <input
-                                    name="firstname"
+                                    name="FirstName"
                                     type="text"
                                     id="firstName"
                                     className="form-control form-control-lg"
@@ -67,7 +77,7 @@ export default function Registration() {
                             </div>
                             <div className="form-outline mb-3">
                                 <input
-                                    name="lastname"
+                                    name="LastName"
                                     type="text"
                                     id="lastName"
                                     className="form-control form-control-lg"
@@ -80,7 +90,7 @@ export default function Registration() {
                             </div>
                             <div className="form-outline mb-3">
                                 <input
-                                    name="email"
+                                    name="Email"
                                     type="email"
                                     id="email"
                                     className="form-control form-control-lg"
@@ -93,7 +103,7 @@ export default function Registration() {
                             </div>
                             <div className="form-outline mb-3">
                                 <input
-                                    name="password"
+                                    name="Password"
                                     type="password"
                                     id="password"
                                     className="form-control form-control-lg"

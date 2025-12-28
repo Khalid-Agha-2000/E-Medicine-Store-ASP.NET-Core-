@@ -1,6 +1,41 @@
 import '../styles/Login.css'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        Email: "",
+        Password: "",
+    });
+
+    const handleChange = (e) => {
+        const {name, value, type, checked} = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
+    };
+
+    const handleLogin = () => {
+        fetch("http://localhost:5001/User/login", {
+            method: "POST",
+            headers: {"Content-type": "application/json"},
+            body: JSON.stringify(formData),
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if(data.statusCode === 200) {
+                navigate("/shop");
+            } else {
+                alert("Login Failed Please Try Again");
+            }
+        })
+        .catch(err => console.error(err));
+    };
+
     return (
         <section className="login-section d-flex align-items-center">
             <div className="container-fluid">
@@ -18,10 +53,12 @@ export default function Login() {
 
                             <div className="form-outline mb-4">
                                 <input
+                                    name="Email"
                                     type="email"
                                     id="form3Example3"
                                     className="form-control form-control-lg"
                                     placeholder="Enter a valid email address"
+                                    onChange={handleChange}
                                 />
                                 <label className="form-label" htmlFor="form3Example3">
                                     Email address
@@ -30,17 +67,19 @@ export default function Login() {
 
                             <div className="form-outline mb-3">
                                 <input
+                                    name="Password"
                                     type="password"
                                     id="form3Example4"
                                     className="form-control form-control-lg"
                                     placeholder="Enter password"
+                                    onChange={handleChange}
                                 />
                                 <label className="form-label" htmlFor="form3Example4">
                                     Password
                                 </label>
                             </div>
 
-                            <div className="d-flex justify-content-between align-items-center">
+                            {/* <div className="d-flex justify-content-between align-items-center">
                                 <div className="form-check mb-0">
                                     <input
                                         className="form-check-input me-2"
@@ -54,13 +93,14 @@ export default function Login() {
                                 <a href="#!" className="text-body">
                                     Forgot password?
                                 </a>
-                            </div>
+                            </div> */}
 
                             <div className="text-center text-lg-start mt-4 pt-2">
                                 <button
                                     type="button"
                                     className="btn btn-success btn-lg"
                                     style={{ paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
+                                    onClick={handleLogin}
                                 >
                                     Login
                                 </button>
