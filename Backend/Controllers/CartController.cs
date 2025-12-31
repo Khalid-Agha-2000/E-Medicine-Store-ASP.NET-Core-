@@ -14,6 +14,27 @@ namespace EMedicineBE.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        [Route("cart/{userId}")]
+        public Response cart(int userId)
+        {
+            Response response = new Response();
+            response.listCart = _context.Carts
+                .Where(item => item.UserId == userId).ToList();
+            
+            if(response.listCart.Count > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Medicines found";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "No Medicines found";
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("addToCart")]
         public Response addToCart(Cart carts)
