@@ -4,7 +4,7 @@ using EMedicineBE.Models;
 
 namespace EMedicineBE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CartController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace EMedicineBE.Controllers
         public Response cart(int userId)
         {
             Response response = new Response();
-            response.listCart = _context.Carts
+            response.listCart = _context.Cart
                 .Where(item => item.UserId == userId).ToList();
             
             if(response.listCart.Count > 0)
@@ -36,43 +36,60 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpPost]
-        [Route("addToCart")]
-        public Response addToCart(Cart carts)
+        [Route("addtocart/{medId}/{quantity}")]
+        public Response addToCart(int medId, int quantity)
         {
             Response response = new Response();
-            var existignItem = _context.Carts
-            .FirstOrDefault(cart => cart.UserId == carts.UserId && cart.MedicineID == carts.MedicineID);
-            if(existignItem != null)
-            {
-                existignItem.Quantity += carts.Quantity;
-                existignItem.TotalPrice = existignItem.Quantity * existignItem.UnitPrice;
-            }
-            else
-            {
-                _context.Carts.Add(carts);
-            }
-            _context.SaveChanges();
-            response.listCart = new List<Cart> {carts};
-            return response;
-        }
 
-        [HttpDelete]
-        [Route("removeFromCart")]
-        public Response removeFromCart(Cart carts)
-        {
-            Response response = new Response();
-            var item = _context.Carts
-                .FirstOrDefault(c => c.UserId == carts.UserId && c.MedicineID == carts.MedicineID);
-            if(item != null)
+            try
             {
-                item.Quantity -= carts.Quantity;
-                item.TotalPrice -= (carts.Quantity * carts.UnitPrice);
-                if(item.Quantity < 1) _context.Carts.Remove(item);
+                var med = _context.Medicines.FirstOrDefault(m => m.ID == medId);
+                if (med == null)
+                {
+                    response.StatusCode = 404;
+                    response.StatusMessage = "Medicine not found";
+                    return response;
+                }
+
+                var existingItem = _context.Cart.FirstOrDefault(c => c.MedicineID == medId && c.UserId == 1);
+
+                if (existingItem != null)
+                {
+                    existingItem.Quantity += quantity;
+                    existingItem.TotalPrice = existingItem.Quantity * existingItem.UnitPrice;
+                    _context.Cart.Update(existingItem);
+
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Increased Cart Quantity";
+                }
+                else
+                {
+                    Cart cart = new Cart
+                    {
+                        MedicineID = med.ID,
+                        Quantity = quantity,
+                        UnitPrice = med.UnitPrice,
+                        UserId = 1,
+                        TotalPrice = quantity * med.UnitPrice
+                    };
+
+                    _context.Cart.Add(cart);
+
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Added to cart";
+                }
+
                 _context.SaveChanges();
-                response.listCart = new List<Cart> {item};
             }
+            catch (Exception ex)
+            {
+                response.StatusCode = 500;
+                response.StatusMessage = $"Server Error: {ex.Message}";
+            }
+
             return response;
         }
+        
 
         [HttpPost]
         [Route("placeAnOrder")]
@@ -80,7 +97,7 @@ namespace EMedicineBE.Controllers
         {
             Response response = new Response();
 
-            var cartItems = _context.Carts
+            var cartItems = _context.Cart
                 .Where(c => c.UserId == users.ID).ToList();
 
             if(cartItems.Count == 0)
@@ -111,7 +128,7 @@ namespace EMedicineBE.Controllers
                 };
                 _context.OrderItems.Add(orderitem);
             }
-            _context.Carts.RemoveRange(cartItems);
+            _context.Cart.RemoveRange(cartItems);
             _context.SaveChanges();
             response.StatusCode = 200;
             response.StatusMessage = "Order placed successfully";
