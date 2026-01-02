@@ -1,4 +1,33 @@
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
 export default function Header() {
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/shop");
+    }
+
+    const handleLogin = () => {
+        navigate("/login");
+    }
+
+    const handleRegister = () => {
+        navigate("/registration");
+    }
+
+    const token = localStorage.getItem("token");
+    let isLoggedIn = false;
+    let userRole = null;
+
+    if(token) {
+        isLoggedIn = true;
+        const decoded = jwtDecode(token);
+        userRole = decoded.role || decoded.type;
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
             <div className="container">
@@ -21,19 +50,29 @@ export default function Header() {
                     <li className="nav-item">
                         <a className="nav-link" href="/orders">Orders</a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="managemedicines">Manage Medicines</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/customerlist">Manage Customers</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/adminorders">Manage Orders</a>
-                    </li>
+                    {isLoggedIn && userRole === "admin" && (
+                        <>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/managemedicines">Manage Medicines</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/customerlist">Manage Customers</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/adminorders">Manage Orders</a>
+                            </li>
+                        </>
+                    )}
                 </ul>
-         
-                    <a href='/login' className="btn btn-success">Login</a>
-                    <a href='/registration' className="btn btn-success ms-3" type="submit">Register</a>
+
+                    {!isLoggedIn ? (
+                        <>
+                            <button className="btn btn-success" onClick={(e) => {e.preventDefault(); handleLogin();}}>Login</button>
+                            <button className="btn btn-success ms-3" onClick={(e) => {e.preventDefault(); handleRegister();}}>Register</button>
+                        </>
+                    ) : (
+                        <button className="btn btn-success" onClick={(e) => {e.preventDefault(); handleLogout();}}>Logout</button>
+                    )}
 
             </div>
             </div>

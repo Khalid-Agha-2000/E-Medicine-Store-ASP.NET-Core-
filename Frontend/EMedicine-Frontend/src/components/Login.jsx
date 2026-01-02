@@ -28,6 +28,7 @@ export default function Login() {
         .then(data => {
             console.log(data);
             if(data.statusCode === 200) {
+                localStorage.setItem("token", data.token);
                 navigate("/shop");
             } else {
                 alert("Login Failed Please Try Again");
