@@ -51,7 +51,9 @@ namespace EMedicineBE.Controllers
                     return response;
                 }
 
-                var existingItem = _context.Cart.FirstOrDefault(c => c.MedicineID == medId && c.UserId == 1);
+                var existingItem = _context.Cart
+                    .Where(c => c.MedicineID == medId && c.UserId.HasValue && c.UserId.Value == 1)
+                    .FirstOrDefault();
 
                 if (existingItem != null)
                 {
@@ -76,7 +78,7 @@ namespace EMedicineBE.Controllers
                     _context.Cart.Add(cart);
 
                     response.StatusCode = 200;
-                    response.StatusMessage = "Added to cart";
+                    response.StatusMessage = "Added to Cart";
                 }
 
                 _context.SaveChanges();

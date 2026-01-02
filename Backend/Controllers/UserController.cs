@@ -2,6 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using EMedicineBE.Data;
 using EMedicineBE.Models;
 
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+
 namespace EMedicineBE.Controllers
 {
     [Route("/[controller]")]
@@ -50,9 +56,28 @@ namespace EMedicineBE.Controllers
             
             if(existingUser != null)
             {
+                var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, existingUser.ID.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, existingUser.Email ?? ""),
+                    new Claim("role", existingUser.Type ?? "user")   
+                };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("khalidaghasupersecretkey1234567890"));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                var token = new JwtSecurityToken(
+                    claims: claims,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: creds
+                );
+
                 response.StatusCode = 200;
                 response.StatusMessage = "Valid User";
-            } else
+                response.token = new JwtSecurityTokenHandler().WriteToken(token);
+
+            }
+            else
             {
                 response.StatusCode = 100;
                 response.StatusMessage = "Invalid user";

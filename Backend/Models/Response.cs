@@ -17,5 +17,6 @@ namespace EMedicineBE.Models
         public Orders? order { get; set; }
         public List<OrderItems>? listItems { get; set; }
         public OrderItems? orderItem {get; set;}
+        public string? token {get; set;}
     }
 }
