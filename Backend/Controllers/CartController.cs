@@ -15,7 +15,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpGet]
-        [Route("cart/{userId}")]
+        [Route("{userId}")]
         public Response cart(int userId)
         {
             Response response = new Response();
