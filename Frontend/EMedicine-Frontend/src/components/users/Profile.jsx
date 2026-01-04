@@ -1,4 +1,21 @@
+import { useState } from "react";
+
 export default function Profile() {
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        Address: "",
+    });
+    const handleChange = (e) => {
+        const {name, value, type, checked} = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "chekcbox"? checked : value,
+        });
+    };
+
     return (
         <div className="container my-5 page-content">
             <h2 className="text-center mb-4">My Profile</h2>
@@ -12,6 +29,7 @@ export default function Profile() {
                                 type="text"
                                 className="form-control"
                                 defaultValue="John"
+                                onChange={handleChange}
                             />
                         </div>
 
@@ -21,6 +39,7 @@ export default function Profile() {
                                 type="text"
                                 className="form-control"
                                 defaultValue="Doe"
+                                onChange={handleChange}
                             />
                         </div>
 
@@ -30,15 +49,17 @@ export default function Profile() {
                                 type="email"
                                 className="form-control"
                                 defaultValue="john@email.com"
+                                onChange={handleChange}
                             />
                         </div>
 
                         <div className="mb-3">
-                            <label className="form-label">Phone</label>
+                            <label className="form-label">Password</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                defaultValue="5551234567"
+                                defaultValue=""
+                                onChange={handleChange}
                             />
                         </div>
 
@@ -48,6 +69,7 @@ export default function Profile() {
                                 className="form-control"
                                 rows="3"
                                 defaultValue="Istanbul, Turkey"
+                                onChange={handleChange}
                             ></textarea>
                         </div>
 

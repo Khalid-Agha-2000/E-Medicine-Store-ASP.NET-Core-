@@ -1,7 +1,9 @@
 import {jwtDecode} from "jwt-decode";
 import { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function Cart() {
+    let navigate = useNavigate();
 
     let token = localStorage.getItem("token");
     let userType = null;
@@ -72,7 +74,7 @@ export default function Cart() {
                             )) 
                         ): (<tr>
                                 <td colSpan="7" className="text-center py-4">
-                                    Cart is empty <br /><br /> <button className="btn btn-sm btn-success">Shop Now</button>
+                                    Cart is empty <br /><br /> <button onClick={() => navigate("/shop")} className="btn btn-sm btn-success">Shop Now</button>
                                 </td>
                             </tr>)}
                     </tbody>
