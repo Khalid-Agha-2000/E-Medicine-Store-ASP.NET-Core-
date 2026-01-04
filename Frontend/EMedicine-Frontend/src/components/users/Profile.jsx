@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export default function Profile() {
+
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -14,6 +16,26 @@ export default function Profile() {
             ...formData,
             [name]: type === "chekcbox"? checked : value,
         });
+    };
+
+    let token = localStorage.getItem("token");
+    let id;
+    if(token) {
+        const decoded = jwtDecode(token);
+        id = parseInt(decoded.sub, 10);
+    }
+
+    const handleUpdate = () => {
+        fetch(`/Cart/updateUser/${id}`, {method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(res => res.json())
+        .then(data => console.log("Update user"))
+        .catch(err => console.error(err));
     };
 
     return (
@@ -73,7 +95,7 @@ export default function Profile() {
                             ></textarea>
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-100">
+                        <button type="submit" onClick={(e) => {e.preventDefault(); handleUpdate();}} className="btn btn-primary w-100">
                             Update Profile
                         </button>
                     </form>

@@ -129,13 +129,13 @@ namespace EMedicineBE.Controllers
 
 
         [HttpPost]
-        [Route("editUser")]
-        public Response editUser(Users users)
+        [Route("updateUser/{id}")]
+        public Response editUser(Users users, int id)
         {
             Response response = new Response();
 
             var currentUser = _context.Users
-                .FirstOrDefault(user => user.ID == users.ID);
+                .FirstOrDefault(user => user.ID == id);
             
             if(currentUser == null)
             {
