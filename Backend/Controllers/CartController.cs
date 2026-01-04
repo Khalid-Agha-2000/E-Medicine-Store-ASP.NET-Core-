@@ -36,8 +36,8 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpPost]
-        [Route("addtocart/{medId}/{quantity}")]
-        public Response addToCart(int medId, int quantity)
+        [Route("addtocart/{medId}/{quantity}/{id}")]
+        public Response addToCart(int medId, int quantity, int id)
         {
             Response response = new Response();
 
@@ -52,7 +52,7 @@ namespace EMedicineBE.Controllers
                 }
 
                 var existingItem = _context.Cart
-                    .Where(c => c.MedicineID == medId && c.UserId.HasValue && c.UserId.Value == 1)
+                    .Where(c => c.MedicineID == medId && c.UserId.HasValue && c.UserId.Value == id)
                     .FirstOrDefault();
 
                 if (existingItem != null)
@@ -71,7 +71,7 @@ namespace EMedicineBE.Controllers
                         MedicineID = med.ID,
                         Quantity = quantity,
                         UnitPrice = med.UnitPrice,
-                        UserId = 1,
+                        UserId = id,
                         TotalPrice = quantity * med.UnitPrice
                     };
 

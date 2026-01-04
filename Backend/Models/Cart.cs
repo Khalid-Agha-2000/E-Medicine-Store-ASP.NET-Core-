@@ -3,6 +3,7 @@ namespace EMedicineBE.Models
     public class Cart
     {
         public int ID { get; set; }
+        public string? MedicineName { get; set; }
         public int? UserId { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal? Discount { get; set; }

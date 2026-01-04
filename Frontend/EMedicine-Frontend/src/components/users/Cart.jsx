@@ -72,7 +72,7 @@ export default function Cart() {
                             )) 
                         ): (<tr>
                                 <td colSpan="7" className="text-center py-4">
-                                    Cart is empty
+                                    Cart is empty <br /><br /> <button className="btn btn-sm btn-success">Shop Now</button>
                                 </td>
                             </tr>)}
                     </tbody>

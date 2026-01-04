@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 
 export default function MedicineDisplay() {
@@ -26,8 +27,16 @@ export default function MedicineDisplay() {
         });
     }, []);
 
-    const addToCart = (medId, quantity) => {
-        fetch(`http://localhost:5001/cart/addtocart/${medId}/${quantity}`, {method: "POST"})
+    const token = localStorage.getItem("token");
+    let userId;
+
+    if(token) {
+        const decoded = jwtDecode(token);
+        userId = parseInt(decoded.sub, 10);
+    }
+
+    const addToCart = (medId, quantity, id) => {
+        fetch(`http://localhost:5001/cart/addtocart/${medId}/${quantity}/${id}`, {method: "POST"})
             .then(res => res.json())
             .then(data => console.log("Done"))
             .catch(err => console.error(err));
@@ -49,7 +58,7 @@ export default function MedicineDisplay() {
                                         </div>
                                     </div>
                                     <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                        <div className="text-center"><button className="btn btn-outline-dark mt-auto" onClick={() => addToCart(med.id, 1)}>Add to Cart</button></div>
+                                        <div className="text-center"><button className="btn btn-outline-dark mt-auto" onClick={() => addToCart(med.id, 1, userId)}>Add to Cart</button></div>
                                     </div>
                                 </div>
                             </div>
