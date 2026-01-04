@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 export default function Profile() {
@@ -8,13 +8,13 @@ export default function Profile() {
         lastName: "",
         email: "",
         password: "",
-        Address: "",
     });
+
     const handleChange = (e) => {
         const {name, value, type, checked} = e.target;
         setFormData({
             ...formData,
-            [name]: type === "chekcbox"? checked : value,
+            [name]: type === "checkbox"? checked : value,
         });
     };
 
@@ -26,7 +26,7 @@ export default function Profile() {
     }
 
     const handleUpdate = () => {
-        fetch(`/Cart/updateUser/${id}`, {method: "POST",
+        fetch(`http://localhost:5001/User/updateUser/${id}`, {method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -34,9 +34,30 @@ export default function Profile() {
             body: JSON.stringify(formData),
         })
         .then(res => res.json())
-        .then(data => console.log("Update user"))
+        .then(data => console.log("Updated user"))
         .catch(err => console.error(err));
     };
+
+    useEffect(() => {
+        fetch(`http://localhost:5001/User/getUser/${id}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            const user = data.user;
+            setFormData({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                password: user.password,
+            });
+        })
+        .catch(err => console.error(err));
+    }, [id, token]);
 
     return (
         <div className="container my-5 page-content">
@@ -48,9 +69,10 @@ export default function Profile() {
                         <div className="mb-3">
                             <label className="form-label">First Name</label>
                             <input
+                                name="firstName"
                                 type="text"
                                 className="form-control"
-                                defaultValue="John"
+                                value={formData.firstName}
                                 onChange={handleChange}
                             />
                         </div>
@@ -59,8 +81,9 @@ export default function Profile() {
                             <label className="form-label">Last Name</label>
                             <input
                                 type="text"
+                                name="lastName"
                                 className="form-control"
-                                defaultValue="Doe"
+                                value={formData.lastName}
                                 onChange={handleChange}
                             />
                         </div>
@@ -69,8 +92,9 @@ export default function Profile() {
                             <label className="form-label">Email</label>
                             <input
                                 type="email"
+                                name="email"
                                 className="form-control"
-                                defaultValue="john@email.com"
+                                value={formData.email}
                                 onChange={handleChange}
                             />
                         </div>
@@ -79,20 +103,11 @@ export default function Profile() {
                             <label className="form-label">Password</label>
                             <input
                                 type="text"
+                                name="password"
                                 className="form-control"
-                                defaultValue=""
+                                value={formData.password}
                                 onChange={handleChange}
                             />
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="form-label">Address</label>
-                            <textarea
-                                className="form-control"
-                                rows="3"
-                                defaultValue="Istanbul, Turkey"
-                                onChange={handleChange}
-                            ></textarea>
                         </div>
 
                         <button type="submit" onClick={(e) => {e.preventDefault(); handleUpdate();}} className="btn btn-primary w-100">

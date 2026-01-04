@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.ObjectPool;
 
 namespace EMedicineBE.Controllers
 {
@@ -82,6 +83,30 @@ namespace EMedicineBE.Controllers
                 response.StatusCode = 100;
                 response.StatusMessage = "Invalid user";
             }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getUser/{id}")]
+        public Response getUser(int id)
+        {
+            Response response = new Response();
+            Users ourUser = _context.Users
+                .FirstOrDefault(user => user.ID == id);
+            
+            response.user = ourUser;
+            
+            if(ourUser != null)
+            {
+                response.StatusMessage = "User Found";
+                response.StatusCode = 200;
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "User not Found";
+            }
+
             return response;
         }
 
