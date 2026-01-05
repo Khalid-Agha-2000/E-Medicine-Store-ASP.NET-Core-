@@ -11,7 +11,6 @@ export default function Cart() {
 
     if(token) {
         const decoded = jwtDecode(token);
-        console.log("Decoded token:", decoded);
         userId = parseInt(decoded.sub, 10);
     }
 
@@ -35,7 +34,23 @@ export default function Cart() {
             setCarts(data.listCart || []);
         })
         .catch(err => console.error(err));
-    }, [])
+    }, []);
+
+    const handleDelete = (id) => {
+        fetch(`http://localhost:5001/Cart/delete/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            setCarts(prev => prev.filter(cart => cart.id !== id));
+        })
+        .catch(err => console.error(err));
+    };
 
     return (
         <section className="py-5">
@@ -66,7 +81,7 @@ export default function Cart() {
                                     <td>{cart.discount ?? 0}</td>
                                     <td className="fw-bold">${cart.totalPrice}</td>
                                     <td className="text-center">
-                                        <button className="btn btn-sm btn-danger">
+                                        <button onClick={() => handleDelete(cart.id)} className="btn btn-sm btn-danger">
                                             Remove Item
                                         </button>
                                     </td>

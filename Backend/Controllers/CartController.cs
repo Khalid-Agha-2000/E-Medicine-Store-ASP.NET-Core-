@@ -91,6 +91,30 @@ namespace EMedicineBE.Controllers
 
             return response;
         }
+
+        [HttpDelete]
+        [Route("delete/{cartId}")]
+        public async Task<Response> deleteFromCart(int cartId)
+        {
+            Response response = new Response();
+            var product = _context.Cart
+                .FirstOrDefault(cart => cart.ID == cartId);
+            response.cart = product;
+
+            if(product == null)
+            {
+                response.StatusCode = 404;
+                response.StatusMessage = "Product not found in cart";
+                return response;
+            }
+            _context.Cart.Remove(product);
+            await _context.SaveChangesAsync();
+
+            response.StatusCode = 200;
+            response.StatusMessage = "Product removed from";
+            
+            return response;
+        }
         
 
         [HttpPost]
