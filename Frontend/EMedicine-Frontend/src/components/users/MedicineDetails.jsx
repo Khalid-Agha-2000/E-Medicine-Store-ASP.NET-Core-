@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export default function MedicineDetails() {
     const {id} = useParams();
@@ -16,6 +17,25 @@ export default function MedicineDetails() {
         })
         .catch(err => console.error(err));
     }, [id]);
+
+    let userId;
+    let token = localStorage.getItem("token");
+    if(token){
+        const decoded = jwtDecode(token);
+        userId = parseInt(decoded.sub, 10);
+    }
+
+    const addToCart = (id, quantity, userId) => {
+        fetch(`http://localhost:5001/cart/addtocart/${id}/${quantity}/${userId}`, {method: "POST"})
+            .then(res => res.json())
+            .then(data => console.log("Done"))
+            .catch(err => console.error(err));
+    };
+    
+    const [number, setNumber] = useState(1);
+    const handleChange = (e) => {
+        setNumber(Number(e.target.value));
+    };
 
     if (!med) {
         return null;
@@ -66,12 +86,14 @@ export default function MedicineDetails() {
                     <div className="d-flex align-items-center">
                         <input
                             type="number"
+                            name="quantity"
                             className="form-control me-3"
                             style={{ width: "120px" }}
                             min="1"
                             defaultValue="1"
+                            onChange={handleChange}
                         />
-                        <button className="btn btn-primary btn-lg">
+                        <button onClick={() => addToCart(med.id, number, userId)} className="btn btn-primary btn-lg">
                             Add to Cart
                         </button>
                     </div>
