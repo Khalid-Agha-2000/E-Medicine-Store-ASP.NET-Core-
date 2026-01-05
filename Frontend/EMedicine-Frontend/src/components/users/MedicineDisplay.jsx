@@ -1,5 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
+import {Link} from "react-router-dom";
+
 
 export default function MedicineDisplay() {
     const [medicines, setMedicines] = useState([]);
@@ -49,18 +51,20 @@ export default function MedicineDisplay() {
                     {medicines.length > 0? (
                         medicines.map((med, index) => (
                             <div className="col mb-5" key={med.id}>
-                                <div className="card h-100">
-                                    <img className="card-img-top" style={{ width: '100%', height: '200px', objectFit: 'fit' }} src={med.imageUrl} alt={med.name} />
-                                    <div className="card-body p-4">
-                                        <div className="text-center">
-                                            <h5 className="fw-bolder">{med.name}</h5>
-                                            ${med.unitPrice}
-                                        </div>
+                                    <div className="card h-100">
+                                        <Link to={`/medicine/${med.id}`}>
+                                            <img className="card-img-top" style={{ width: '100%', height: '200px', objectFit: 'fit' }} src={med.imageUrl} alt={med.name} />
+                                            <div className="card-body p-4">
+                                                <div className="text-center">
+                                                    <h5 className="fw-bolder">{med.name}</h5>
+                                                    ${med.unitPrice}
+                                                </div>
+                                            </div>
+                                        </Link>
+                                            <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                                <div className="text-center"><button className="btn btn-outline-dark mt-auto" onClick={() => addToCart(med.id, 1, userId)}>Add to Cart</button></div>
+                                            </div>
                                     </div>
-                                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                        <div className="text-center"><button className="btn btn-outline-dark mt-auto" onClick={() => addToCart(med.id, 1, userId)}>Add to Cart</button></div>
-                                    </div>
-                                </div>
                             </div>
                         ))
                     ): (

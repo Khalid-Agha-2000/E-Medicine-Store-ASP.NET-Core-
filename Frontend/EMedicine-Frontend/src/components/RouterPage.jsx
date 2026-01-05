@@ -32,7 +32,7 @@ export default function RouterPage() {
                     <Route path='/cart' element={<Cart/>}/>
                     <Route path='/shop' element={<MedicineDisplay/>}/>
                     <Route path='/orderdetails' element={<OrderDetails/>}/>
-                    <Route path='/medicinedetails' element={<MedicineDetails/>}/>
+                    <Route path='/medicine/:id' element={<MedicineDetails/>}/>
 
                     <Route path='/managemedicines' element={<ManageMedicines/>}/>
                     <Route path='/login' element={<Login/>}/>
