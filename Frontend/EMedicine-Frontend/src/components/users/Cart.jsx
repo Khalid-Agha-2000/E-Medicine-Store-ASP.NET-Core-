@@ -52,6 +52,18 @@ export default function Cart() {
         .catch(err => console.error(err));
     };
 
+    const handlePlaceOrder = () => {
+        fetch(`http://localhost:5001/Cart/placeAnOrder/${userId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+        })
+        .then(res => res.json())
+        .catch(err => console.error(err));
+    };
+
     return (
         <section className="py-5">
             <div className="container mt-5">
@@ -61,7 +73,7 @@ export default function Cart() {
                     <thead className="table-dark">
                         <tr>
                             <th>#</th>
-                            <th>Medicine ID</th>
+                            <th>Medicine Name</th>
                             <th>Unit Price</th>
                             <th>Quantity</th>
                             <th>Discount</th>
@@ -75,7 +87,7 @@ export default function Cart() {
                             carts.map((cart, index) => (
                                 <tr key={index}>
                                     <td>{index+1}</td>
-                                    <td>{cart.medicineID}</td>
+                                    <td>{cart.medicineName}</td>
                                     <td>${cart.unitPrice}</td>
                                     <td>{cart.quantity}</td>
                                     <td>{cart.discount ?? 0}</td>
@@ -94,6 +106,13 @@ export default function Cart() {
                             </tr>)}
                     </tbody>
                 </table>
+                {carts.length > 0 && (
+                    <div className="mt-3 text-end">
+                        <button onClick={handlePlaceOrder} className="btn btn-success">
+                            Place an Order
+                        </button>
+                    </div>
+                )}
             </div>
         </section>
     )

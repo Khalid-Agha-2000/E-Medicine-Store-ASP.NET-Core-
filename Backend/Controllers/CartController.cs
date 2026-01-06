@@ -44,6 +44,7 @@ namespace EMedicineBE.Controllers
             try
             {
                 var med = _context.Medicines.FirstOrDefault(m => m.ID == medId);
+                Console.WriteLine($"Fetched medicine: ID={med?.ID}, Name={med?.Name}");
                 if (med == null)
                 {
                     response.StatusCode = 404;
@@ -60,7 +61,7 @@ namespace EMedicineBE.Controllers
                     existingItem.Quantity += quantity;
                     existingItem.TotalPrice = existingItem.Quantity * existingItem.UnitPrice;
                     _context.Cart.Update(existingItem);
-
+                    existingItem.MedicineName = med.Name;
                     response.StatusCode = 200;
                     response.StatusMessage = "Increased Cart Quantity";
                 }
@@ -69,6 +70,7 @@ namespace EMedicineBE.Controllers
                     Cart cart = new Cart
                     {
                         MedicineID = med.ID,
+                        MedicineName = med.Name,
                         Quantity = quantity,
                         UnitPrice = med.UnitPrice,
                         UserId = id,
@@ -118,13 +120,13 @@ namespace EMedicineBE.Controllers
         
 
         [HttpPost]
-        [Route("placeAnOrder")]
-        public Response placeAnOrder(Users users)
+        [Route("placeAnOrder/{userId}")]
+        public Response placeAnOrder(int userId)
         {
             Response response = new Response();
 
             var cartItems = _context.Cart
-                .Where(c => c.UserId == users.ID).ToList();
+                .Where(c => c.UserId == userId).ToList();
 
             if(cartItems.Count == 0)
             {
@@ -135,8 +137,9 @@ namespace EMedicineBE.Controllers
 
             Orders order = new Orders
             {
-                UserId = users.ID,
-                OrderTotal = cartItems.Sum(c => c.TotalPrice)
+                UserId = userId,
+                OrderTotal = cartItems.Sum(c => c.TotalPrice),
+                OrderStatus = "Pending",
             };
 
             _context.Orders.Add(order);

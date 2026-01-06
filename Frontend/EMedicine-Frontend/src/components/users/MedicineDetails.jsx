@@ -34,7 +34,10 @@ export default function MedicineDetails() {
     
     const [number, setNumber] = useState(1);
     const handleChange = (e) => {
-        setNumber(Number(e.target.value));
+        let value = Number(e.target.value);
+        if (value > 10) value = 10;
+        if (value < 1) value = 1;
+        setNumber(value);
     };
 
     if (!med) {
@@ -90,7 +93,8 @@ export default function MedicineDetails() {
                             className="form-control me-3"
                             style={{ width: "120px" }}
                             min="1"
-                            defaultValue="1"
+                            max="10"
+                            value={number}
                             onChange={handleChange}
                         />
                         <button onClick={() => addToCart(med.id, number, userId)} className="btn btn-primary btn-lg">

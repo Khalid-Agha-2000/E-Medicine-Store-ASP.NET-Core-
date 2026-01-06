@@ -3,7 +3,7 @@ namespace EMedicineBE.Models
     public class Medicines
     {
         public int ID { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public string? Manufacturer { get; set; }
         public decimal UnitPrice { get; set; }
         public string? Description { get; set; }
