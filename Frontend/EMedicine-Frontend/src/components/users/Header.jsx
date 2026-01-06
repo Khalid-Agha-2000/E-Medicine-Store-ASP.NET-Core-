@@ -44,9 +44,7 @@ export default function Header() {
                     <li className="nav-item">
                         <a className="nav-link" href="/profile">Profile</a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/cart">Cart</a>
-                    </li>
+                    
                     <li className="nav-item">
                         <a className="nav-link" href="/orders">Orders</a>
                     </li>
@@ -67,11 +65,16 @@ export default function Header() {
 
                     {!isLoggedIn ? (
                         <>
+                            <a className="nav-link me-4" href="/cart"><i style={{color: "white"}} className="fas fa-cart-shopping"></i></a>
                             <button className="btn btn-success" onClick={(e) => {e.preventDefault(); handleLogin();}}>Login</button>
                             <button className="btn btn-success ms-3" onClick={(e) => {e.preventDefault(); handleRegister();}}>Register</button>
                         </>
                     ) : (
-                        <button className="btn btn-success" onClick={(e) => {e.preventDefault(); handleLogout();}}>Logout</button>
+                        <>
+                        <a className="nav-link me-4" href="/cart"><i style={{color: "white"}} className="fas fa-cart-shopping"></i></a>
+                        <button className="btn btn-success ml-3" onClick={(e) => {e.preventDefault(); handleLogout();}}>Logout</button>
+                        </>
+
                     )}
 
             </div>

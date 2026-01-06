@@ -91,7 +91,7 @@ namespace EMedicineBE.Controllers
         public Response getUser(int id)
         {
             Response response = new Response();
-            Users ourUser = _context.Users
+            var ourUser = _context.Users
                 .FirstOrDefault(user => user.ID == id);
             
             response.user = ourUser;
