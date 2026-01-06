@@ -190,7 +190,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpGet]
-        [Route("orderList")]
+        [Route("orderList/{userId}")]
         public Response orderList(int userId)
         {
             Response response = new Response();
@@ -207,7 +207,7 @@ namespace EMedicineBE.Controllers
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 200;
                 response.StatusMessage = "No orders found";
             }
 
