@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using EMedicineBE.Data;
 using EMedicineBE.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -196,20 +198,14 @@ namespace EMedicineBE.Controllers
             Response response = new Response();
 
             var orders = _context.Orders
-                .Where(o => o.UserId == userId).ToList();
-            
-            if(orders.Count > 0)
-            {
-                response.StatusCode = 200;
-                response.StatusMessage = "Orders details fetched";
-                response.listOrders = orders;
-                return response;
-            }
-            else
-            {
-                response.StatusCode = 200;
-                response.StatusMessage = "No orders found";
-            }
+                .Where(o => o.UserId == userId)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Medicine)
+                .ToList();
+
+            response.listOrders = orders;
+            response.StatusCode = 200;
+            response.StatusMessage = orders.Count > 0 ? "Orders fetched" : "No orders found";
 
             return response;
         }

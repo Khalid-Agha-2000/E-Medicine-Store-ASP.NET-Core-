@@ -7,5 +7,6 @@ namespace EMedicineBE.Models
         public string? OrderNumber { get; set; }
         public decimal OrderTotal { get; set; }
         public string? OrderStatus { get; set; }
+        public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
     }
 }
