@@ -24,5 +24,22 @@ namespace EMedicineBE.Controllers
             response.medicine = medicine;
             return response;
         }
+
+        [HttpPost]
+        [Route("addMedicine")]
+        public async Task<Response> addMedicine(Medicines medicine)
+        {
+            Response response = new Response();
+            medicine.ExpDate = DateTime.Now.AddYears(2);
+            medicine.Status = "In Stock";
+
+            response.medicine = medicine;
+            _context.Medicines.Add(medicine);
+            await _context.SaveChangesAsync();
+
+            response.StatusCode = 200;
+            response.StatusMessage = "Medicine Saved Successfully";
+            return response;
+        }
     }
 }
