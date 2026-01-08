@@ -41,5 +41,16 @@ namespace EMedicineBE.Controllers
             response.StatusMessage = "Medicine Saved Successfully";
             return response;
         }
+
+        [HttpGet]
+        [Route("get-medicines")]
+        public Response getMedicines()
+        {
+            Response response = new Response();
+            response.listMedicines = _context.Medicines.ToList();
+            response.StatusCode = 200;
+            response.StatusMessage = "All medicines returned";
+            return response;
+        }
     }
 }

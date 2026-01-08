@@ -39,7 +39,7 @@ export default function RouterPage() {
                     <Route path='/adminorders' element={<AdminOrders/>}/>
                     <Route path='/customerlist' element={<CustomerList/>}/>
                     {/* <Route path='/medicine' element={<Medicine/>}/> */}
-                    <Route path='/addeditmedicine' element={<AddEditMedicine/>}/>
+                    <Route path='/add-edit-medicine' element={<AddEditMedicine/>}/>
                 </Routes>
                 </main>
             <Footer/>

@@ -1,18 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
+
 export default function AdminDashboard() {
+    const navigate = useNavigate();
+
     const [currentPage, setCurrentPage] = useState(1);
 
-    const medicines = [
-        { id: 1, name: "Paracetamol", price: 20, stock: 50 },
-        { id: 2, name: "Ibuprofen", price: 30, stock: 40 },
-        { id: 3, name: "Aspirin", price: 25, stock: 60 },
-    ];
+    const token = localStorage.getItem("token");
+
+
+    const [medicines, setMedicines] = useState([]);
+    useEffect(() => {
+        fetch("http://localhost:5001/Medicine/get-medicines", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(data => setMedicines(data.listMedicines))
+        .catch(err => console.error(err));
+    }, []);
+
 
     return (
         <div className="container mt-4 page-content">
         <div className="d-flex justify-content-between align-items-center mb-3">
             <h4 className="mb-0">Manage Medicines</h4>
-            <button className="btn btn-success">
+            <button onClick={() => navigate("/add-edit-medicine")} className="btn btn-success">
             Add Medicine
             </button>
         </div>
@@ -30,8 +46,8 @@ export default function AdminDashboard() {
             {medicines.map(med => (
                 <tr key={med.id}>
                 <td>{med.name}</td>
-                <td>{med.price} ₺</td>
-                <td>{med.stock}</td>
+                <td>{med.unitPrice}₺</td>
+                <td>{med.quantity}</td>
                 <td>
                     <button className="btn btn-sm btn-primary me-2">
                     Edit
