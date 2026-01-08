@@ -52,5 +52,39 @@ namespace EMedicineBE.Controllers
             response.StatusMessage = "All medicines returned";
             return response;
         }
+
+        [HttpPut]
+        [Route("editMedicine/{id}")]
+        public Response editMedicine(Medicines newMed)
+        {
+            Response response = new Response();
+            var oldMed = _context.Medicines
+                .FirstOrDefault(m => m.ID == newMed.ID);
+
+            if(oldMed != null)
+            {
+                oldMed.Name = newMed.Name;
+                oldMed.Manufacturer = newMed.Manufacturer;
+                oldMed.UnitPrice = newMed.UnitPrice;
+                oldMed.Discount = newMed.Discount;
+                oldMed.Quantity = newMed.Quantity;
+                oldMed.ExpDate = newMed.ExpDate;
+                oldMed.ImageUrl = newMed.ImageUrl;
+                oldMed.Status = newMed.Status;
+                oldMed.Description = newMed.Description;
+                _context.SaveChanges();
+
+                response.medicine = oldMed;
+                response.StatusCode = 200;
+                response.StatusMessage = "Medicine updated successfully";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Medicine not found";
+            }
+            
+            return response;
+        }
     }
 }

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function AddEditMedicine() {
     const[formData, setFormData] = useState({
@@ -19,6 +20,14 @@ export default function AddEditMedicine() {
         }));
     }
 
+    const location = useLocation();
+    const medicine = location.state?.medicine;
+    useEffect(() => {
+        if(medicine) {
+            setFormData(medicine);
+        }
+    }, [medicine])
+
     const token = localStorage.getItem("token");
 
     const handleSave = () => {
@@ -28,8 +37,12 @@ export default function AddEditMedicine() {
             Status: "In Stock"
         }
 
-        fetch("http://localhost:5001/Medicine/addMedicine", {
-            method: "POST",
+        const url = formData.ID?
+        `http://localhost:5001/Medicine/editMedicine/${formData.ID}`
+        :"http://localhost:5001/Medicine/addMedicine";
+
+        fetch(url, {
+            method: formData.ID? "PUT": "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"

@@ -49,7 +49,20 @@ export default function AdminDashboard() {
                 <td>{med.unitPrice}₺</td>
                 <td>{med.quantity}</td>
                 <td>
-                    <button className="btn btn-sm btn-primary me-2">
+                    <button onClick={() => navigate("/add-edit-medicine",
+                        {state: {
+                            medicine: {
+                                ID: med.id,
+                                Name: med.name,
+                                Manufacturer: med.manufacturer,
+                                UnitPrice: med.unitPrice,
+                                Discount: med.discount,
+                                Quantity: med.quantity,
+                                ImageUrl: med.imageUrl,
+                                Description: med.description,
+                            }
+                        }
+                        })} className="btn btn-sm btn-primary me-2">
                     Edit
                     </button>
                     <button className="btn btn-sm btn-danger">
