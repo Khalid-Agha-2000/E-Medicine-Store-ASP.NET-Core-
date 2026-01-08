@@ -86,5 +86,28 @@ namespace EMedicineBE.Controllers
             
             return response;
         }
+
+        [HttpDelete]
+        [Route("delete-medicine/{id}")]
+        public Response deleteMedicine(int id)
+        {
+            Response response = new Response();
+            var medicine = _context.Medicines.FirstOrDefault(med => med.ID == id);
+            response.medicine = medicine;
+
+            if(medicine != null)
+            {
+                _context.Medicines.Remove(medicine);
+                _context.SaveChanges();
+                response.StatusCode = 200;
+                response.StatusMessage = "Medicine removed";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Could not find medicine";
+            }
+            return response;
+        }
     }
 }

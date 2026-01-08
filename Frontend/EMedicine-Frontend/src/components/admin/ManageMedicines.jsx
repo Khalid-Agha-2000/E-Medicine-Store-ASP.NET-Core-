@@ -23,6 +23,20 @@ export default function AdminDashboard() {
         .catch(err => console.error(err));
     }, []);
 
+    const handleDelete = (id) => {
+        fetch(`http://localhost:5001/Medicine/delete-medicine/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(() => {
+            setMedicines(prev => prev.filter(med => med.id !== id))
+        })
+        .catch(err => console.error(err));
+    }
 
     return (
         <div className="container mt-4 page-content">
@@ -52,7 +66,7 @@ export default function AdminDashboard() {
                     <button onClick={() => navigate("/add-edit-medicine",
                         {state: {
                             medicine: {
-                                ID: med.id,
+                                ID: med.iD,
                                 Name: med.name,
                                 Manufacturer: med.manufacturer,
                                 UnitPrice: med.unitPrice,
@@ -65,7 +79,7 @@ export default function AdminDashboard() {
                         })} className="btn btn-sm btn-primary me-2">
                     Edit
                     </button>
-                    <button className="btn btn-sm btn-danger">
+                    <button onClick={() => {handleDelete(med.id)}} className="btn btn-sm btn-danger">
                     Delete
                     </button>
                 </td>
