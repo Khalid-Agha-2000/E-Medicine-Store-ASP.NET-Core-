@@ -70,7 +70,7 @@ export default function Cart() {
                 <h3 className="mb-4">Your Cart</h3>
 
                 <table className="table table-hover align-middle">
-                    <thead className="table-dark">
+                    <thead className="table-primary">
                         <tr>
                             <th>#</th>
                             <th>Medicine Name</th>

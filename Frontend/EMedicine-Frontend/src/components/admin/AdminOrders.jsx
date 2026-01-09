@@ -20,6 +20,32 @@ export default function AdminOrders() {
     }, []);
 
 
+    const handleChange = async (orderId, newStatus) => {
+        setOrders(prevOrders => 
+            prevOrders.map(order => 
+                order.id === orderId
+                ? {...order, orderStatus: newStatus}
+                : order
+            )
+        );
+
+        try{
+            await fetch(
+                `http://localhost:5001/Cart/update-order-status/${orderId}?status=${newStatus}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+        } catch (err) {
+            console.error("Failed to update status", err);
+        }
+    };
+
+
     return (
         <div className="container my-5 page-content">
             <h2 className="text-center mb-4">Manage Orders</h2>
@@ -39,7 +65,7 @@ export default function AdminOrders() {
                                 <td>{order.id}</td>
                                 <td>{order.orderTotal}₺</td>
                                 <td>
-                                    <select value={order.orderStatus || ""} className="form-select">
+                                    <select onChange={(e) => {handleChange(order.id, e.target.value)}} value={order.orderStatus || ""} className="form-select">
                                         <option value="Processing">Processing</option>
                                         <option value="Pending">Pending</option>
                                         <option value="Shipping">Shipping</option>
