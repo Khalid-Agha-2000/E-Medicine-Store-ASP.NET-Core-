@@ -176,5 +176,26 @@ namespace EMedicineBE.Controllers
             response.StatusMessage = "Orders returned";
             return response;
         }
+
+        [HttpPut]
+        [Route("update-order-status/{id}")]
+        public Response updateOrderStatus(int id, string status)
+        {
+            Response response = new Response();
+            var order = _context.Orders.FirstOrDefault(o => o.ID == id);
+            if(order != null)
+            {
+                order.OrderStatus = status;
+                _context.SaveChanges();
+                response.StatusCode = 200;
+                response.StatusMessage = "Status updated";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "No order found";
+            }
+            return response;
+        }
     }
 }
