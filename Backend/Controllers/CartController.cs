@@ -164,5 +164,17 @@ namespace EMedicineBE.Controllers
             response.order = order;
             return response;
         }
+
+        [HttpGet]
+        [Route("get-all-orders")]
+        public Response getAllOrders()
+        {
+            Response response = new Response();
+            var orders = _context.Orders.ToList();
+            response.listOrders = orders;
+            response.StatusCode = 200;
+            response.StatusMessage = "Orders returned";
+            return response;
+        }
     }
 }
