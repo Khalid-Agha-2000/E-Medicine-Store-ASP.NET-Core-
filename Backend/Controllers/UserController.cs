@@ -209,5 +209,17 @@ namespace EMedicineBE.Controllers
 
             return response;
         }
+
+        [HttpGet]
+        [Route("get-all-users")]
+        public Response getAllUsers()
+        {
+            Response response = new Response();
+            var users = _context.Users.ToList();
+            response.StatusCode = 200;
+            response.StatusMessage = "All users returned";
+            response.listUsers = users;
+            return response;
+        }
     }
 }
