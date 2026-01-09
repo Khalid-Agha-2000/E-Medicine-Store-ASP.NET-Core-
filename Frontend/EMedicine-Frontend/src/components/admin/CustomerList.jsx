@@ -18,6 +18,21 @@ export default function CustomerList() {
         .catch(err => console.error(err));
     }, []);
 
+    const handleDelete = (id) => {
+        fetch(`http://localhost:5001/User/delete-user/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(() => {
+            setCustomers(prev => prev.filter(user => user.id !== id))
+        })
+        .catch(err => console.error(err));
+    };
+
     return (
         <div className="container mt-4 page-content">
             <h4 className="mb-3">Manage Customers</h4>
@@ -36,9 +51,9 @@ export default function CustomerList() {
                         <tr key={user.id}>
                             <td>{user.firstName} {user.lastName}</td>
                             <td>{user.email}</td>
-                            <td>{user.role}</td>
+                            <td>{user.type}</td>
                             <td>
-                                <button className="btn btn-sm btn-danger">
+                                <button onClick={() => {handleDelete(user.id)}} className="btn btn-sm btn-danger">
                                     Delete
                                 </button>
                             </td>

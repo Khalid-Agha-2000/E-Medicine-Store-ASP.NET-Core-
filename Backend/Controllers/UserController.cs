@@ -221,5 +221,26 @@ namespace EMedicineBE.Controllers
             response.listUsers = users;
             return response;
         }
+
+        [HttpDelete]
+        [Route("delete-user/{id}")]
+        public Response deleteUser(int id)
+        {
+            Response response = new Response();
+            var user = _context.Users.FirstOrDefault(u => u.ID == id);
+            if(user != null)
+            {
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+                response.StatusCode = 200;
+                response.StatusMessage = "User deleted";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "User not found";
+            }
+            return response;
+        }
     }
 }
