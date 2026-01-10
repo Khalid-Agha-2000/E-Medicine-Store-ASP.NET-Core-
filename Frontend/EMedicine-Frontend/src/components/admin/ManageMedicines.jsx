@@ -66,7 +66,7 @@ export default function AdminDashboard() {
                     <button onClick={() => navigate("/add-edit-medicine",
                         {state: {
                             medicine: {
-                                ID: med.iD,
+                                ID: med.id,
                                 Name: med.name,
                                 Manufacturer: med.manufacturer,
                                 UnitPrice: med.unitPrice,

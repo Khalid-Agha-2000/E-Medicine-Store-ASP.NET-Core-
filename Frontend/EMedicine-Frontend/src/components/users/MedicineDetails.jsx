@@ -7,7 +7,7 @@ export default function MedicineDetails() {
 
     const [med, setMed] = useState(null);
     useEffect(() => {
-        fetch(`http://localhost:5001/Medicine/getMedicine/${id}`, {
+        fetch(`http://localhost:5001/Medicine/get-medicine/${id}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -26,7 +26,7 @@ export default function MedicineDetails() {
     }
 
     const addToCart = (id, quantity, userId) => {
-        fetch(`http://localhost:5001/cart/addtocart/${id}/${quantity}/${userId}`, {method: "POST"})
+        fetch(`http://localhost:5001/cart/add-to-cart/${id}/${quantity}/${userId}`, {method: "POST"})
             .then(res => res.json())
             .then(data => console.log("Done"))
             .catch(err => console.error(err));

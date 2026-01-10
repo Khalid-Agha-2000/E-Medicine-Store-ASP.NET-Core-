@@ -39,7 +39,7 @@ export default function Profile() {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:5001/User/getUser/${id}`, {
+        fetch(`http://localhost:5001/User/get-user/${id}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,

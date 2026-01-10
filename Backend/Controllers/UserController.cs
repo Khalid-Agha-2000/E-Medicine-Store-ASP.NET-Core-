@@ -89,7 +89,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpGet]
-        [Route("getUser/{id}")]
+        [Route("get-user/{id}")]
         public Response getUser(int id)
         {
             Response response = new Response();
@@ -112,87 +112,9 @@ namespace EMedicineBE.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("shop")]
-        public Response shop()
-        {
-            Response response = new Response();
-            response.listMedicines = _context.Medicines.ToList();
-            if(response.listMedicines.Count() > 0)
-            {
-                response.StatusCode = 200;
-                response.StatusMessage = "Medicines";
-            }
-            else
-            {
-                response.StatusCode = 100;
-                response.StatusMessage = "No medicines found";
-            }
-            return response;
-        }
-
-        [HttpPost]
-        [Route("viewUser")]
-        public Response viewUser(Users users)
-        {
-            Response response = new Response();
-
-            var existingUser = _context.Users
-                .FirstOrDefault(u => u.ID == users.ID);
-            if(existingUser != null)
-            {
-                response.StatusCode = 200;
-                response.StatusMessage = "User exists!";
-                response.user = existingUser;
-            }
-            else
-            {
-                response.StatusCode = 100;
-                response.StatusMessage = "User does not exist!";
-                response.user = null;
-            }
-            return response;
-        }
-
-
-        [HttpPost]
-        [Route("updateUser/{id}")]
-        public Response editUser(Users users, int id)
-        {
-            Response response = new Response();
-
-            var currentUser = _context.Users
-                .FirstOrDefault(user => user.ID == id);
-            
-            if(currentUser == null)
-            {
-                response.StatusCode = 100;
-                response.StatusMessage = "Update failed! Please try later";
-                return response;
-            }
-            
-            currentUser.Email = users.Email;
-            currentUser.FirstName = users.FirstName;
-            currentUser.LastName = users.LastName;
-            currentUser.Password = users.Password;
-            int i = _context.SaveChanges();
-
-            response.user = currentUser;
-            if(i > 0)
-            {
-                response.StatusCode = 200;
-                response.StatusMessage = "Record updated successfully!";
-            }
-            else
-            {
-                response.StatusCode = 100;
-                response.StatusMessage = "Update failed! Please try later";
-            }
-            return response;
-        }
 
         [HttpGet]
-        [Route("orderList/{userId}")]
+        [Route("order-list/{userId}")]
         public Response orderList(int userId)
         {
             Response response = new Response();

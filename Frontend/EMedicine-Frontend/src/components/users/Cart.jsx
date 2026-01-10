@@ -17,7 +17,7 @@ export default function Cart() {
     const [carts, setCarts] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5001/Cart/${userId}`, {
+        fetch(`http://localhost:5001/Cart/get-cart/${userId}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -53,7 +53,7 @@ export default function Cart() {
     };
 
     const handlePlaceOrder = () => {
-        fetch(`http://localhost:5001/Cart/placeAnOrder/${userId}`, {
+        fetch(`http://localhost:5001/Cart/place-an-order/${userId}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -88,10 +88,10 @@ export default function Cart() {
                                 <tr key={index}>
                                     <td>{index+1}</td>
                                     <td>{cart.medicineName}</td>
-                                    <td>${cart.unitPrice}</td>
+                                    <td>{cart.unitPrice}₺</td>
                                     <td>{cart.quantity}</td>
                                     <td>{cart.discount ?? 0}</td>
-                                    <td className="fw-bold">${cart.totalPrice}</td>
+                                    <td className="fw-bold">{cart.totalPrice}₺</td>
                                     <td className="text-center">
                                         <button onClick={() => handleDelete(cart.id)} className="btn btn-sm btn-danger">
                                             Remove Item

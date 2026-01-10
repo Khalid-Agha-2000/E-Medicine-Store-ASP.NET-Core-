@@ -15,7 +15,26 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpGet]
-        [Route("getMedicine/{id}")]
+        [Route("shop")]
+        public Response shop()
+        {
+            Response response = new Response();
+            response.listMedicines = _context.Medicines.ToList();
+            if(response.listMedicines.Count() > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Medicines";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "No medicines found";
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("get-medicine/{id}")]
         public Response getMedicines(int id)
         {
             Response response = new Response();
@@ -26,7 +45,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpPost]
-        [Route("addMedicine")]
+        [Route("add-medicine")]
         public async Task<Response> addMedicine(Medicines medicine)
         {
             Response response = new Response();
@@ -54,12 +73,12 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpPut]
-        [Route("editMedicine/{id}")]
-        public Response editMedicine(Medicines newMed)
+        [Route("edit-medicine/{id}")]
+        public Response editMedicine(int id, Medicines newMed)
         {
             Response response = new Response();
             var oldMed = _context.Medicines
-                .FirstOrDefault(m => m.ID == newMed.ID);
+                .FirstOrDefault(m => m.ID == id);
 
             if(oldMed != null)
             {

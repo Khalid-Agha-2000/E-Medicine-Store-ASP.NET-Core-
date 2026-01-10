@@ -19,7 +19,7 @@ export default function Orders() {
     useEffect(() => {
         if(!userId) return;
 
-        fetch(`http://localhost:5001/User/orderList/${userId}`, {
+        fetch(`http://localhost:5001/User/order-list/${userId}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -51,7 +51,7 @@ export default function Orders() {
 
                             <div className="col-md-4">
                                 <strong>Total Price</strong>
-                                <div>{order.orderTotal}</div>
+                                <div>{order.orderTotal}₺</div>
                             </div>
 
                             <div className="col-md-4">

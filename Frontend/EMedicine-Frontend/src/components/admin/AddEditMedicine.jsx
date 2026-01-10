@@ -24,7 +24,10 @@ export default function AddEditMedicine() {
     const medicine = location.state?.medicine;
     useEffect(() => {
         if(medicine) {
-            setFormData(medicine);
+            setFormData({
+                ...medicine,
+                ID: medicine.ID || medicine.id || medicine.iD,
+            });
         }
     }, [medicine])
 
@@ -38,8 +41,8 @@ export default function AddEditMedicine() {
         }
 
         const url = formData.ID?
-        `http://localhost:5001/Medicine/editMedicine/${formData.ID}`
-        :"http://localhost:5001/Medicine/addMedicine";
+        `http://localhost:5001/Medicine/edit-medicine/${formData.ID}`
+        :"http://localhost:5001/Medicine/add-medicine";
 
         fetch(url, {
             method: formData.ID? "PUT": "POST",

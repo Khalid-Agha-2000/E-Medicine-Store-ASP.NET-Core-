@@ -8,7 +8,7 @@ export default function MedicineDisplay() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        fetch("http://localhost:5001/User/shop", {
+        fetch("http://localhost:5001/Medicine/shop", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -38,7 +38,7 @@ export default function MedicineDisplay() {
     }
 
     const addToCart = (medId, quantity, id) => {
-        fetch(`http://localhost:5001/cart/addtocart/${medId}/${quantity}/${id}`, {method: "POST"})
+        fetch(`http://localhost:5001/cart/add-to-cart/${medId}/${quantity}/${id}`, {method: "POST"})
             .then(res => res.json())
             .then(data => console.log("Done"))
             .catch(err => console.error(err));
@@ -57,7 +57,7 @@ export default function MedicineDisplay() {
                                             <div className="card-body p-4">
                                                 <div className="text-center">
                                                     <h5 className="fw-bolder">{med.name}</h5>
-                                                    ${med.unitPrice}
+                                                    {med.unitPrice}₺
                                                 </div>
                                             </div>
                                         </Link>

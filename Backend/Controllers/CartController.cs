@@ -15,7 +15,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpGet]
-        [Route("{userId}")]
+        [Route("get-cart/{userId}")]
         public Response cart(int userId)
         {
             Response response = new Response();
@@ -36,7 +36,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpPost]
-        [Route("addtocart/{medId}/{quantity}/{id}")]
+        [Route("add-to-cart/{medId}/{quantity}/{id}")]
         public Response addToCart(int medId, int quantity, int id)
         {
             Response response = new Response();
@@ -120,7 +120,7 @@ namespace EMedicineBE.Controllers
         
 
         [HttpPost]
-        [Route("placeAnOrder/{userId}")]
+        [Route("place-an-order/{userId}")]
         public Response placeAnOrder(int userId)
         {
             Response response = new Response();
