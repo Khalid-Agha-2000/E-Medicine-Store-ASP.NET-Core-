@@ -1,7 +1,6 @@
 using EMedicineBE.Models;
 using EMedicineBE.Data;
 using EMedicineBE.Services.Medicine;
-using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace EMedicineBE.Services.Medicine
@@ -68,8 +67,8 @@ namespace EMedicineBE.Services.Medicine
         public async Task<Response> EditMedicineAsync(int id, Medicines newMed)
         {
             Response response = new Response();
-            var oldMed = _context.Medicines
-                .FirstOrDefault(m => m.ID == id);
+            var oldMed = await _context.Medicines
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if(oldMed != null)
             {

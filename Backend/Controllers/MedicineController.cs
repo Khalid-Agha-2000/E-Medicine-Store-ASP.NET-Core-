@@ -9,11 +9,9 @@ namespace EMedicineBE.Controllers
     [ApiController]
     public class MedicineController : ControllerBase
     {
-        private readonly AppDbContext _context;
         private readonly IMedicineService _medicineService;
-        public MedicineController(AppDbContext context, IMedicineService medicineService)
+        public MedicineController(IMedicineService medicineService)
         {
-            _context = context;
             _medicineService = medicineService;
         }
 

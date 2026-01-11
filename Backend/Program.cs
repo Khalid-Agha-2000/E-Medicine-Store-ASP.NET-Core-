@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using EMedicineBE.Services.Medicine;
+using EMedicineBE.Services.Cart;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +63,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 builder.Services.AddScoped<IMedicineService, MedicineService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 builder.WebHost.ConfigureKestrel(options =>
 {
