@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using EMedicineBE.Data;
 using EMedicineBE.Models;
+using EMedicineBE.Services.Medicine;
 
 namespace EMedicineBE.Controllers
 {
@@ -9,124 +10,54 @@ namespace EMedicineBE.Controllers
     public class MedicineController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public MedicineController(AppDbContext context)
+        private readonly IMedicineService _medicineService;
+        public MedicineController(AppDbContext context, IMedicineService medicineService)
         {
             _context = context;
+            _medicineService = medicineService;
         }
 
         [HttpGet]
         [Route("shop")]
-        public Response shop()
+        public async Task<Response> Shop()
         {
-            Response response = new Response();
-            response.listMedicines = _context.Medicines.ToList();
-            if(response.listMedicines.Count() > 0)
-            {
-                response.StatusCode = 200;
-                response.StatusMessage = "Medicines";
-            }
-            else
-            {
-                response.StatusCode = 100;
-                response.StatusMessage = "No medicines found";
-            }
-            return response;
+            return await _medicineService.GetShopMedicinesAsync();
         }
+        
 
         [HttpGet]
         [Route("get-medicine/{id}")]
-        public Response getMedicines(int id)
+        public async Task<Response> GetMedicines(int id)
         {
-            Response response = new Response();
-            var medicine = _context.Medicines
-                .FirstOrDefault(m => m.ID == id);
-            response.medicine = medicine;
-            return response;
+            return await _medicineService.GetMedicineById(id);
         }
 
         [HttpPost]
         [Route("add-medicine")]
-        public async Task<Response> addMedicine(Medicines medicine)
+        public async Task<Response> AddMedicine(Medicines medicine)
         {
-            Response response = new Response();
-            medicine.ExpDate = DateTime.Now.AddYears(2);
-            medicine.Status = "In Stock";
-
-            response.medicine = medicine;
-            _context.Medicines.Add(medicine);
-            await _context.SaveChangesAsync();
-
-            response.StatusCode = 200;
-            response.StatusMessage = "Medicine Saved Successfully";
-            return response;
+            return await _medicineService.AddMedicineAsync(medicine);
         }
 
         [HttpGet]
         [Route("get-medicines")]
-        public Response getMedicines()
+        public async Task<Response> GetMedicines()
         {
-            Response response = new Response();
-            response.listMedicines = _context.Medicines.ToList();
-            response.StatusCode = 200;
-            response.StatusMessage = "All medicines returned";
-            return response;
+            return await _medicineService.GetAllMedicines();
         }
 
         [HttpPut]
         [Route("edit-medicine/{id}")]
-        public Response editMedicine(int id, Medicines newMed)
+        public async Task<Response> EditMedicine(int id, Medicines newMed)
         {
-            Response response = new Response();
-            var oldMed = _context.Medicines
-                .FirstOrDefault(m => m.ID == id);
-
-            if(oldMed != null)
-            {
-                oldMed.Name = newMed.Name;
-                oldMed.Manufacturer = newMed.Manufacturer;
-                oldMed.UnitPrice = newMed.UnitPrice;
-                oldMed.Discount = newMed.Discount;
-                oldMed.Quantity = newMed.Quantity;
-                oldMed.ExpDate = newMed.ExpDate;
-                oldMed.ImageUrl = newMed.ImageUrl;
-                oldMed.Status = newMed.Status;
-                oldMed.Description = newMed.Description;
-                _context.SaveChanges();
-
-                response.medicine = oldMed;
-                response.StatusCode = 200;
-                response.StatusMessage = "Medicine updated successfully";
-            }
-            else
-            {
-                response.StatusCode = 100;
-                response.StatusMessage = "Medicine not found";
-            }
-            
-            return response;
+            return await _medicineService.EditMedicineAsync(id, newMed);
         }
 
         [HttpDelete]
         [Route("delete-medicine/{id}")]
-        public Response deleteMedicine(int id)
+        public async Task<Response> DeleteMedicine(int id)
         {
-            Response response = new Response();
-            var medicine = _context.Medicines.FirstOrDefault(med => med.ID == id);
-            response.medicine = medicine;
-
-            if(medicine != null)
-            {
-                _context.Medicines.Remove(medicine);
-                _context.SaveChanges();
-                response.StatusCode = 200;
-                response.StatusMessage = "Medicine removed";
-            }
-            else
-            {
-                response.StatusCode = 100;
-                response.StatusMessage = "Could not find medicine";
-            }
-            return response;
+            return await _medicineService.DeleteMedicineAsync(id);
         }
     }
 }
