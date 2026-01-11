@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using EMedicineBE.Data;
 using EMedicineBE.Models;
 using Microsoft.EntityFrameworkCore;
-using EMedicineBE.Services.Medicine;
+using EMedicineBE.Services.Cart;
 
 namespace EMedicineBE.Controllers
 {

@@ -1,6 +1,6 @@
 using EMedicineBE.Models;
 
-namespace EMedicineBE.Services.Medicine
+namespace EMedicineBE.Services.Cart
 {
     public interface ICartService
     {
