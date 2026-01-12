@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function CustomerList() {
+export default function ManageCustomers() {
     let token = localStorage.getItem("token");
 
     const [customers, setCustomers] = useState([]);

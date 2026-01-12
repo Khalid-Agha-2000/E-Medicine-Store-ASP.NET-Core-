@@ -3,7 +3,7 @@ import "../styles/Registration.css";
 import {useNavigate} from "react-router-dom";
 
 
-export default function Registration() {
+export default function Register() {
 const navigate = useNavigate();
 
     const [formData, setFormData] = useState({

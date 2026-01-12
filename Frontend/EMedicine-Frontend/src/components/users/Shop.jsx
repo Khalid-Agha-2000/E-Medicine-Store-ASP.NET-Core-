@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 
 
-export default function MedicineDisplay() {
+export default function Shop() {
     const [medicines, setMedicines] = useState([]);
 
     useEffect(() => {

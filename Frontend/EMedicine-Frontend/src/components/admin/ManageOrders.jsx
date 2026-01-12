@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function AdminOrders() {
+export default function ManageOrders() {
     let token = localStorage.getItem("token");
     const [orders, setOrders] = useState([]);
 
