@@ -16,11 +16,11 @@ namespace EMedicineBE.Models
 
         [Required(ErrorMessage = "Password is required")]
         [StringLength(100, MinimumLength = 4, ErrorMessage = "Password must be at least 6 characters")]
-        public string Password {get; set;}
+        public string? Password {get; set;}
 
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
-        public string Email {get; set;}
+        public string? Email {get; set;}
         public decimal? Fund { get; set; }
         public string? Type { get; set; }
         public int? Status { get; set; }

@@ -32,8 +32,16 @@ namespace EMedicineBE.Controllers
 
         [HttpPost]
         [Route("add-medicine")]
-        public async Task<Response> AddMedicine(Medicines medicine)
+        public async Task<Response> AddMedicine([FromBody] Medicines medicine)
         {
+            if (!ModelState.IsValid)
+            {
+                return new Response
+                {
+                    StatusCode = 400,
+                    StatusMessage = "Invalid medicine data"
+                };
+            }
             return await _medicineService.AddMedicineAsync(medicine);
         }
 
@@ -46,8 +54,16 @@ namespace EMedicineBE.Controllers
 
         [HttpPut]
         [Route("edit-medicine/{id}")]
-        public async Task<Response> EditMedicine(int id, Medicines newMed)
+        public async Task<Response> EditMedicine(int id, [FromBody] Medicines newMed)
         {
+            if (!ModelState.IsValid)
+            {
+                return new Response
+                {
+                    StatusCode = 400,
+                    StatusMessage = "Invalid medicine data"
+                };
+            }
             return await _medicineService.EditMedicineAsync(id, newMed);
         }
 
