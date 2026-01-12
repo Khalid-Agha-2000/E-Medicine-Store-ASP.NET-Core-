@@ -80,6 +80,31 @@ namespace EMedicineBE.Services.User
             return response;
         }
 
+        public async Task<Response> UpdateProfileAsync(int id, UpdateProfileDto profile)
+        {
+            Response response = new Response();
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "User not found";
+                return response;
+            }
+
+            user.FirstName = profile.FirstName;
+            user.LastName = profile.LastName;
+            user.Email = profile.Email;
+            user.Password = profile.Password;
+
+            await _context.SaveChangesAsync();
+
+            response.StatusCode = 200;
+            response.StatusMessage = "Profile updated successfully";
+            response.user = user;
+            return response;
+        }
+
         public async Task<Response> GetUserAsync(int id)
         {
             Response response = new Response();

@@ -65,6 +65,21 @@ namespace EMedicineBE.Controllers
             return await _userService.OrderListAsync(userId);
         }
 
+        [HttpPut]
+        [Route("update-profile/{id}")]
+        public async Task<Response> UpdateProfile(int id, [FromBody] UpdateProfileDto profile)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new Response
+                {
+                    StatusCode = 400,
+                    StatusMessage = "Invalid profile data"
+                };
+            }
+            return await _userService.UpdateProfileAsync(id, profile);
+        }
+
         [HttpGet]
         [Route("get-all-users")]
         public async Task<Response> GetAllUsers()

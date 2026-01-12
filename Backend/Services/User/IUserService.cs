@@ -11,6 +11,8 @@ namespace EMedicineBE.Services.User
 
         Task<Response> GetUserAsync(int id);
 
+        Task<Response> UpdateProfileAsync(int id, UpdateProfileDto profile);
+
         Task<Response> OrderListAsync(int userId);
 
         Task<Response> GetAllUsersAsync();

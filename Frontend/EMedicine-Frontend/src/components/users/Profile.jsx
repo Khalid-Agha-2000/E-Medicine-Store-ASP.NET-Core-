@@ -26,7 +26,7 @@ export default function Profile() {
     }
 
     const handleUpdate = () => {
-        fetch(`http://localhost:5001/User/updateUser/${id}`, {method: "POST",
+        fetch(`http://localhost:5001/User/update-profile/${id}`, {method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -34,7 +34,6 @@ export default function Profile() {
             body: JSON.stringify(formData),
         })
         .then(res => res.json())
-        .then(data => console.log("Updated user"))
         .catch(err => console.error(err));
     };
 
