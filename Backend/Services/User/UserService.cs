@@ -7,8 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using EMedicineBE.Models.Dtos;
 
- namespace EMedicineBE.Services.User
+namespace EMedicineBE.Services.User
 {
     public class UserService : IUserService
     {
@@ -41,12 +42,12 @@ using System.Text;
             return response;
         }
 
-        public async Task<Response> LoginAsync(Users users)
+        public async Task<Response> LoginAsync(LoginDto login)
         {
             Response response = new Response();
 
             var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == users.Email && u.Password == users.Password);
+                .FirstOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
             
             if(existingUser != null)
             {

@@ -3,6 +3,8 @@ using EMedicineBE.Data;
 using EMedicineBE.Models;
 
 using EMedicineBE.Services.User;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using EMedicineBE.Models.Dtos;
 
 namespace EMedicineBE.Controllers
 {
@@ -19,16 +21,33 @@ namespace EMedicineBE.Controllers
 
         [HttpPost]
         [Route("registration")]
-        public async Task<Response> Register(Users users)
+        public async Task<Response> Register([FromBody] Users users)
         {
+            if (!ModelState.IsValid)
+            {
+                return new Response
+                {
+                    StatusCode = 400,
+                    StatusMessage = "Invalid registration data"
+                };
+            }
+
             return await _userService.RegisterAsync(users);
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<Response> Login(Users users)
+        public async Task<Response> Login([FromBody] LoginDto login)
         {
-            return await _userService.LoginAsync(users);
+            if (!ModelState.IsValid)
+            {
+                return new Response
+                {
+                    StatusCode = 400,
+                    StatusMessage = "Invalid login data"
+                };
+            }
+            return await _userService.LoginAsync(login);
         }
 
         [HttpGet]

@@ -1,12 +1,13 @@
  using EMedicineBE.Models;
+using EMedicineBE.Models.Dtos;
 
- namespace EMedicineBE.Services.User
+namespace EMedicineBE.Services.User
 {
     public interface IUserService
     {
         Task<Response> RegisterAsync(Users user);
 
-        Task<Response> LoginAsync(Users user);
+        Task<Response> LoginAsync(LoginDto login);
 
         Task<Response> GetUserAsync(int id);
 
