@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 
 export default function Register() {
 const navigate = useNavigate();
+const [validated, setValidated] = useState(false);
 
     const [formData, setFormData] = useState({
         FirstName: "",
@@ -23,6 +24,7 @@ const navigate = useNavigate();
     };
 
     const handleRegister = () => {
+        setValidated(true);
         if(!formData.terms) {
             alert('You must agree to the terms');
             return;
@@ -59,7 +61,7 @@ const navigate = useNavigate();
                         />
                     </div>
                     <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                        <form>
+                        <form noValidate className={validated ? "was-validated" : ""}>
                             <p className="lead fw-bold mb-3">Register</p>
 
                             <div className="form-outline mb-3">
@@ -70,11 +72,15 @@ const navigate = useNavigate();
                                     className="form-control form-control-lg"
                                     placeholder="Enter your first name"
                                     onChange={handleChange}
+                                    required
+                                    value={formData.FirstName}
                                 />
+                                <div className="invalid-feedback">Please enter your first name</div>
                                 <label className="form-label" htmlFor="firstName">
                                     First Name
                                 </label>
                             </div>
+
                             <div className="form-outline mb-3">
                                 <input
                                     name="LastName"
@@ -83,11 +89,15 @@ const navigate = useNavigate();
                                     className="form-control form-control-lg"
                                     placeholder="Enter your last name"
                                     onChange={handleChange}
+                                    required
+                                    value={formData.LastName}
                                 />
+                                <div className="invalid-feedback">Please enter your last name</div>
                                 <label className="form-label" htmlFor="lastName">
                                     Last Name
                                 </label>
                             </div>
+
                             <div className="form-outline mb-3">
                                 <input
                                     name="Email"
@@ -96,11 +106,15 @@ const navigate = useNavigate();
                                     className="form-control form-control-lg"
                                     placeholder="Enter a valid email address"
                                     onChange={handleChange}
+                                    required
+                                    value={formData.Email}
                                 />
+                                <div className="invalid-feedback">Please enter a valid email address</div>
                                 <label className="form-label" htmlFor="email">
                                     Email address
                                 </label>
                             </div>
+
                             <div className="form-outline mb-3">
                                 <input
                                     name="Password"
@@ -109,7 +123,11 @@ const navigate = useNavigate();
                                     className="form-control form-control-lg"
                                     placeholder="Enter password"
                                     onChange={handleChange}
+                                    required
+                                    minLength={6}
+                                    value={formData.Password}
                                 />
+                                <div className="invalid-feedback">Please enter your password (At least 6 caharacters)</div>
                                 <label className="form-label" htmlFor="password">
                                     Password
                                 </label>
@@ -121,7 +139,10 @@ const navigate = useNavigate();
                                     type="checkbox"
                                     id="termsCheck"
                                     onChange={handleChange}
+                                    required
+                                    checked={formData.terms}
                                 />
+                                <div className="invalid-feedback">Please accept the terms before registration</div>
                                 <label className="form-check-label" htmlFor="termsCheck">
                                     I agree to the terms and conditions
                                 </label>

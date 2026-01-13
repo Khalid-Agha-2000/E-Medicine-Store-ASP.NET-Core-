@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 export default function Profile() {
+    const [validated, setValidated] = useState(false);
 
     const [formData, setFormData] = useState({
         firstName: "",
@@ -64,7 +65,7 @@ export default function Profile() {
 
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <form>
+                    <form noValidate className={validated ? "was-validated" : ""}>
                         <div className="mb-3">
                             <label className="form-label">First Name</label>
                             <input
@@ -73,7 +74,9 @@ export default function Profile() {
                                 className="form-control"
                                 value={formData.firstName}
                                 onChange={handleChange}
+                                required
                             />
+                            <div className="invalid-feedback">First name cannot be empty</div>
                         </div>
 
                         <div className="mb-3">
@@ -84,7 +87,9 @@ export default function Profile() {
                                 className="form-control"
                                 value={formData.lastName}
                                 onChange={handleChange}
+                                required
                             />
+                            <div className="invalid-feedback">Last name cannot be empty</div>
                         </div>
 
                         <div className="mb-3">
@@ -95,7 +100,9 @@ export default function Profile() {
                                 className="form-control"
                                 value={formData.email}
                                 onChange={handleChange}
+                                required
                             />
+                            <div className="invalid-feedback">Enter a valid email</div>
                         </div>
 
                         <div className="mb-3">
@@ -106,10 +113,13 @@ export default function Profile() {
                                 className="form-control"
                                 value={formData.password}
                                 onChange={handleChange}
+                                required
+                                minLength={6}
                             />
+                            <div className="invalid-feedback">Password must be at least 6 characters</div>
                         </div>
 
-                        <button type="submit" onClick={(e) => {e.preventDefault(); handleUpdate();}} className="btn btn-primary w-100">
+                        <button type="submit" onClick={(e) => {e.preventDefault(); handleUpdate(); setValidated(true);}} className="btn btn-primary w-100">
                             Update Profile
                         </button>
                     </form>

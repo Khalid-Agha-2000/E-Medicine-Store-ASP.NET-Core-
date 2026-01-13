@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const navigate = useNavigate();
+    const [validated, setValidated] = useState(false);
 
     const [formData, setFormData] = useState({
         Email: "",
@@ -19,6 +20,7 @@ export default function Login() {
     };
 
     const handleLogin = () => {
+        setValidated(true);
         fetch("http://localhost:5001/User/login", {
             method: "POST",
             headers: {"Content-type": "application/json"},
@@ -49,7 +51,7 @@ export default function Login() {
                         />
                     </div>
                     <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                        <form>
+                        <form noValidate className={validated ? "was-validated" : ""}>
                             <p className="lead fw-bold mb-3">Sign in</p>
 
                             <div className="form-outline mb-4">
@@ -60,7 +62,10 @@ export default function Login() {
                                     className="form-control form-control-lg"
                                     placeholder="Enter a valid email address"
                                     onChange={handleChange}
+                                    required
+                                    value={formData.Email}
                                 />
+                                <div className="invalid-feedback">Please enter avalid email</div>
                                 <label className="form-label" htmlFor="form3Example3">
                                     Email address
                                 </label>
@@ -74,27 +79,15 @@ export default function Login() {
                                     className="form-control form-control-lg"
                                     placeholder="Enter password"
                                     onChange={handleChange}
+                                    required
+                                    value={formData.Password}
+                                    minLength={6}
                                 />
+                                <div className="invalid-feedback">Please enter your password (At least 6 characters)</div>
                                 <label className="form-label" htmlFor="form3Example4">
                                     Password
                                 </label>
                             </div>
-
-                            {/* <div className="d-flex justify-content-between align-items-center">
-                                <div className="form-check mb-0">
-                                    <input
-                                        className="form-check-input me-2"
-                                        type="checkbox"
-                                        id="form2Example3"
-                                    />
-                                    <label className="form-check-label" htmlFor="form2Example3">
-                                        Remember me
-                                    </label>
-                                </div>
-                                <a href="#!" className="text-body">
-                                    Forgot password?
-                                </a>
-                            </div> */}
 
                             <div className="text-center text-lg-start mt-4 pt-2">
                                 <button

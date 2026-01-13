@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 export default function AddEditMedicine() {
+    const [validated, setValidated] = useState(false);
+
     const[formData, setFormData] = useState({
         Name: "",
         Manufacturer: "",
@@ -61,43 +63,107 @@ export default function AddEditMedicine() {
             <div className="row">
                 <div className="col-md-6 col-lg-8 mx-auto">
                     <h4 className="mb-4">Add / Edit Medicine</h4>
-                    <form className="card p-4 shadow-sm">
+                    <form className={`card p-4 shadow-sm ${validated ? "was-validated" : ""}`} noValidate>
                         <div className="mb-3">
                             <label className="form-label">Medicine Name</label>
-                            <input value={formData.Name} name="Name" type="text" className="form-control" onChange={handleChange} placeholder="Enter medicine name" />
+                            <input
+                            value={formData.Name}
+                            name="Name"
+                            type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="Enter medicine name"
+                            required
+                            />
+                            <div className="invalid-feedback">Please enter medicine name (at least 6 characters)</div>
                         </div>
 
                         <div className="mb-3">
                             <label className="form-label">Manufacturer</label>
-                            <input value={formData.Manufacturer} name="Manufacturer" type="text" className="form-control" onChange={handleChange} placeholder="Enter manufacturer" />
+                            <input
+                            value={formData.Manufacturer}
+                            name="Manufacturer" type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="Enter manufacturer"
+                            required
+                            />
+                            <div className="invalid-feedback">Please enter manufacturer (at least 6 characters)</div>
                         </div>
 
                         <div className="mb-3">
                             <label className="form-label">Unit Price (₺)</label>
-                            <input value={formData.UnitPrice} name="UnitPrice" type="number" step="0.01" className="form-control" onChange={handleChange} placeholder="Enter price" />
+                            <input
+                            value={formData.UnitPrice}
+                            name="UnitPrice"
+                            type="number"
+                            step="0.01"
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="Enter price"
+                            required
+                            min={0.01}
+                            max={9999.99}
+                            />
+                            <div className="invalid-feedback">Price must be between 0.01₺ and 9999.99₺</div>
                         </div>
 
                         <div className="mb-3">
                             <label className="form-label">Discount (%)</label>
-                            <input value={formData.Discount} name="Discount" type="number" step="0.01" className="form-control" onChange={handleChange} placeholder="Enter discount" />
+                            <input
+                            value={formData.Discount}
+                            name="Discount"
+                            type="number"
+                            step="0.01"
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="Enter discount"
+                            />
                         </div>
 
                         <div className="mb-3">
                             <label className="form-label">Stock Quantity</label>
-                            <input value={formData.Quantity} name="Quantity" type="number" className="form-control" onChange={handleChange} placeholder="Enter stock amount" />
+                            <input
+                            value={formData.Quantity}
+                            name="Quantity"
+                            type="number"
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="Enter stock amount"
+                            required
+                            min={1}
+                            />
+                            <div className="invalid-feedback">Stock must be at least 1</div>
                         </div>
 
                         <div className="mb-3">
                             <label className="form-label">Image URL</label>
-                            <input value={formData.ImageUrl} name="ImageUrl" type="text" className="form-control" onChange={handleChange} placeholder="Enter image URL" />
+                            <input
+                            value={formData.ImageUrl}
+                            name="ImageUrl"
+                            type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="Enter image URL"
+                            />
                         </div>
 
                         <div className="mb-3">
                             <label className="form-label">Description</label>
-                            <textarea value={formData.Description} name="Description" className="form-control" onChange={handleChange} rows="3" placeholder="Optional description"></textarea>
+                            <textarea
+                            value={formData.Description}
+                            name="Description"
+                            className="form-control"
+                            onChange={handleChange}
+                            rows="3"
+                            placeholder="Optional description"
+                            required
+                            minLength={20}
+                            ></textarea>
+                            <div className="invalid-feedback">Please enter a description</div>
                         </div>
 
-                        <button onClick={(e)=> {e.preventDefault(); handleSave();}} type="submit" className="btn btn-success">
+                        <button onClick={(e)=> {e.preventDefault(); handleSave(); setValidated(true);}} type="submit" className="btn btn-success">
                             Save Medicine
                         </button>
                     </form>
