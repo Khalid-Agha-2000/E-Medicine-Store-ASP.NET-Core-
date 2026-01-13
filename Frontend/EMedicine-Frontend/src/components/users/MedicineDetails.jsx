@@ -26,7 +26,13 @@ export default function MedicineDetails() {
     }
 
     const addToCart = (id, quantity, userId) => {
-        fetch(`http://localhost:5001/cart/add-to-cart/${id}/${quantity}/${userId}`, {method: "POST"})
+        fetch(`http://localhost:5001/cart/add-to-cart/${id}/${quantity}/${userId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
             .then(res => res.json())
             .then(data => console.log("Done"))
             .catch(err => console.error(err));

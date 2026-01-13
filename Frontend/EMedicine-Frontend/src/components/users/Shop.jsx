@@ -5,9 +5,10 @@ import {Link} from "react-router-dom";
 
 export default function Shop() {
     const [medicines, setMedicines] = useState([]);
+    const token = localStorage.getItem("token");
+    let userId;
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
         fetch("http://localhost:5001/Medicine/shop", {
             method: "GET",
             headers: {
@@ -29,16 +30,19 @@ export default function Shop() {
         });
     }, []);
 
-    const token = localStorage.getItem("token");
-    let userId;
-
     if(token) {
         const decoded = jwtDecode(token);
         userId = parseInt(decoded.sub, 10);
     }
 
     const addToCart = (medId, quantity, id) => {
-        fetch(`http://localhost:5001/cart/add-to-cart/${medId}/${quantity}/${id}`, {method: "POST"})
+        fetch(`http://localhost:5001/cart/add-to-cart/${medId}/${quantity}/${id}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
             .then(res => res.json())
             .then(data => console.log("Done"))
             .catch(err => console.error(err));
@@ -53,7 +57,7 @@ export default function Shop() {
                             <div className="col mb-5" key={med.id}>
                                     <div className="card h-100">
                                         <Link to={`/medicine/${med.id}`}>
-                                            <img className="card-img-top" style={{ width: '100%', height: '200px', objectFit: 'fit' }} src={med.imageUrl} alt={med.name} />
+                                            <img className="card-img-top" style={{ width: '100%', height: '200px', objectFit: 'fit' }} src={med.imageUrl || null} alt={med.name} />
                                             <div className="card-body p-4">
                                                 <div className="text-center">
                                                     <h5 className="fw-bolder">{med.name}</h5>

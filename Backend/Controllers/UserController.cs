@@ -5,6 +5,7 @@ using EMedicineBE.Models;
 using EMedicineBE.Services.User;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using EMedicineBE.Models.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EMedicineBE.Controllers
 {
@@ -20,7 +21,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpPost]
-        [Route("registration")]
+        [Route("register")]
         public async Task<Response> Register([FromBody] Users users)
         {
             if (!ModelState.IsValid)
@@ -49,23 +50,28 @@ namespace EMedicineBE.Controllers
             }
             return await _userService.LoginAsync(login);
         }
-
+        
+        // for profile page for all users
         [HttpGet]
+        [Authorize]
         [Route("get-user/{id}")]
         public async Task<Response> GetUser(int id)
         {
             return await _userService.GetUserAsync(id);
         }
 
-
+        // for orders page for all user types
         [HttpGet]
+        [Authorize]
         [Route("order-list/{userId}")]
         public async Task<Response> OrderList(int userId)
         {
             return await _userService.OrderListAsync(userId);
         }
 
+        // For profile page for all users
         [HttpPut]
+        [Authorize]
         [Route("update-profile/{id}")]
         public async Task<Response> UpdateProfile(int id, [FromBody] UpdateProfileDto profile)
         {
@@ -80,7 +86,9 @@ namespace EMedicineBE.Controllers
             return await _userService.UpdateProfileAsync(id, profile);
         }
 
+        // For manage users page for admin
         [HttpGet]
+        [Authorize (Roles = "admin")]
         [Route("get-all-users")]
         public async Task<Response> GetAllUsers()
         {
@@ -88,6 +96,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         [Route("delete-user/{id}")]
         public async Task<Response> DeleteUser(int id)
         {

@@ -3,6 +3,7 @@ using EMedicineBE.Data;
 using EMedicineBE.Models;
 using Microsoft.EntityFrameworkCore;
 using EMedicineBE.Services.Cart;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EMedicineBE.Controllers
 {
@@ -17,6 +18,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("get-cart/{userId}")]
         public async Task<Response> Cart(int userId)
         {
@@ -24,6 +26,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Route("add-to-cart/{medId}/{quantity}/{id}")]
         public async Task<Response> AddToCart(int medId, int quantity, int id)
         {
@@ -31,6 +34,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("delete/{cartId}")]
         public async Task<Response> DeleteFromCart(int cartId)
         {
@@ -39,13 +43,16 @@ namespace EMedicineBE.Controllers
         
 
         [HttpPost]
+        [Authorize]
         [Route("place-an-order/{userId}")]
         public async Task<Response> PlaceAnOrder(int userId)
         {
             return await _cartService.PlaceAnOrderAsync(userId);
         }
 
+        // For manage orders page for admins
         [HttpGet]
+        [Authorize (Roles = "admin")]
         [Route("get-all-orders")]
         public async Task<Response> GetAllOrders()
         {
@@ -53,6 +60,7 @@ namespace EMedicineBE.Controllers
         }
 
         [HttpPut]
+        [Authorize (Roles = "admin")]
         [Route("update-order-status/{id}")]
         public async Task<Response> UpdateOrderStatus(int id, string status)
         {

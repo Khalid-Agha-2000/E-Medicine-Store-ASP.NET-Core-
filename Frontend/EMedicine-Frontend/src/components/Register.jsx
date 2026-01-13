@@ -30,7 +30,7 @@ const [validated, setValidated] = useState(false);
             return;
         }
 
-        fetch("http://localhost:5001/User/registration", {
+        fetch("http://localhost:5001/User/register", {
             method: "POST",
             headers: {"Content-type": "application/json"},
             body: JSON.stringify(formData)
