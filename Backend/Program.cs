@@ -73,6 +73,9 @@ builder.WebHost.ConfigureKestrel(options =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
