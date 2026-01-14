@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useFlashMessage } from "../FlashMessageContext";
 
 export default function MedicineDetails() {
     const {id} = useParams();
+    const {setFlashMessage} = useFlashMessage();
 
     const [med, setMed] = useState(null);
     useEffect(() => {
@@ -13,7 +15,6 @@ export default function MedicineDetails() {
         .then(res => res.json())
         .then(data => {
             setMed(data.medicine);
-            console.log("Medicine data:", data.medicine)
         })
         .catch(err => console.error(err));
     }, [id]);
@@ -34,7 +35,13 @@ export default function MedicineDetails() {
             }
         })
             .then(res => res.json())
-            .then(data => console.log("Done"))
+            .then(data => {
+                if(data.statusCode === 200) {
+                    setFlashMessage({message: "Product added to cart succesfully", type: "success"});
+                } else {
+                    setFlashMessage({message: "Failed to add to cart. Please log in!", type: "danger"});
+                }
+            })
             .catch(err => console.error(err));
     };
     

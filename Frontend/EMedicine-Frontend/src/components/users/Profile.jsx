@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useFlashMessage } from "../FlashMessageContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
     const [validated, setValidated] = useState(false);
+    const {setFlashMessage} = useFlashMessage();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         firstName: "",
@@ -35,6 +39,14 @@ export default function Profile() {
             body: JSON.stringify(formData),
         })
         .then(res => res.json())
+        .then (data => {
+            if(data.statusCode === 200){
+                setFlashMessage({message: "Your profile info was update!", type: "success"});
+                navigate("/shop");
+            } else {
+                setFlashMessage({Message: "Sorry, profile update failed!", type: "danger"});
+            }
+        })
         .catch(err => console.error(err));
     };
 
@@ -60,7 +72,7 @@ export default function Profile() {
     }, [id, token]);
 
     return (
-        <div className="container my-5 page-content">
+        <div className="container mb-5 my-2 page-content">
             <h2 className="text-center mb-4">My Profile</h2>
 
             <div className="row justify-content-center">

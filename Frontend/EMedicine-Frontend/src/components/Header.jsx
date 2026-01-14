@@ -1,12 +1,14 @@
 import { useNavigate, Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { useFlashMessage } from "./FlashMessageContext";
 
 export default function Header() {
-
+    const {setFlashMessage} = useFlashMessage();
     const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        setFlashMessage({message: "You are now logged out. Stay healthy!", type: "success"});
         navigate("/shop");
     }
 
@@ -25,7 +27,7 @@ export default function Header() {
     if(token) {
         isLoggedIn = true;
         const decoded = jwtDecode(token);
-        userRole = decoded.role || decoded.type;
+        userRole = decoded.role;
     }
 
     return (

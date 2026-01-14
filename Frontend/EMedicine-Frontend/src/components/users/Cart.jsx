@@ -1,9 +1,11 @@
 import {jwtDecode} from "jwt-decode";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
+import { useFlashMessage } from "../FlashMessageContext";
 
 export default function Cart() {
     let navigate = useNavigate();
+    const {setFlashMessage} = useFlashMessage();
 
     let token = localStorage.getItem("token");
     let userType = null;
@@ -46,8 +48,12 @@ export default function Cart() {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
-            setCarts(prev => prev.filter(cart => cart.id !== id));
+                if(data.statusCode === 200) {
+                    setFlashMessage({message: "Product removed from cart succesfully", type: "danger"});
+                    setCarts(prev => prev.filter(cart => cart.id !== id));
+                } else {
+                    setFlashMessage({message: "Failed to remove from cart. Please try again!", type: "danger"});
+                }
         })
         .catch(err => console.error(err));
     };
@@ -61,6 +67,14 @@ export default function Cart() {
             },
         })
         .then(res => res.json())
+        .then(data => {
+            if(data.statusCode === 200) {
+                setFlashMessage({message: "Your order was placed successfully", type: "success"});
+                navigate("/shop");
+            } else {
+                setFlashMessage({message: "Failed to place an order. Please try again!", type: "danger"});
+            }
+        })
         .catch(err => console.error(err));
     };
 

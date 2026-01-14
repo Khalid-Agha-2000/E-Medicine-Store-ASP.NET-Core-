@@ -1,10 +1,12 @@
 import '../styles/Login.css'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useFlashMessage } from './FlashMessageContext';
 
 export default function Login() {
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
+    const {setFlashMessage} = useFlashMessage();
 
     const [formData, setFormData] = useState({
         Email: "",
@@ -31,9 +33,10 @@ export default function Login() {
             console.log(data);
             if(data.statusCode === 200) {
                 localStorage.setItem("token", data.token);
+                setFlashMessage({message: "Welcome to E-Medicine. Find your medicines and stay healthy.", type: "success"});
                 navigate("/shop");
             } else {
-                alert("Login Failed Please Try Again");
+                setFlashMessage({message: "Failed to login. Please try again", type: "danger"});
             }
         })
         .catch(err => console.error(err));

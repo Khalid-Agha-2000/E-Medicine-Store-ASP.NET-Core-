@@ -1,11 +1,13 @@
 import { useState } from "react";
 import "../styles/Registration.css";
 import {useNavigate} from "react-router-dom";
+import {useFlashMessage} from "./FlashMessageContext";
 
 
 export default function Register() {
 const navigate = useNavigate();
 const [validated, setValidated] = useState(false);
+const {setFlashMessage} = useFlashMessage();
 
     const [formData, setFormData] = useState({
         FirstName: "",
@@ -39,9 +41,10 @@ const [validated, setValidated] = useState(false);
         .then(data => {
             console.log(data);
             if(data.statusCode === 200) {
-                navigate("/shop");
+                setFlashMessage({message: "Registration successful. Please login.", type: "success"});
+                navigate("/login");
             } else {
-                alert("Registration Failed");
+                setFlashMessage({message: "Registration failed", type: "danger"});
             }
         })
         .catch(err => console.error(err));

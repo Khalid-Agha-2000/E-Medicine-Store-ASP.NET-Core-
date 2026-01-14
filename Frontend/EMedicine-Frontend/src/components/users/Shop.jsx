@@ -1,9 +1,11 @@
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
+import { useFlashMessage } from "../FlashMessageContext";
 
 
 export default function Shop() {
+    const {setFlashMessage} = useFlashMessage();
     const [medicines, setMedicines] = useState([]);
     const token = localStorage.getItem("token");
     let userId;
@@ -44,12 +46,18 @@ export default function Shop() {
             }
         })
             .then(res => res.json())
-            .then(data => console.log("Done"))
+            .then(data => {
+                if(data.statusCode === 200) {
+                    setFlashMessage({message: "Product added to cart succesfully", type: "success"});
+                } else {
+                    setFlashMessage({message: "Failed to add to cart. Please log in!", type: "danger"});
+                }
+            })
             .catch(err => console.error(err));
     };
 
     return (
-        <section className="py-5 page-content">
+        <section className="py-5 mt-3 page-content">
             <div className="container px-4 px-lg-5 mt-5">
                 <div className="row gx-4 gx-lg-5 row-cols-md-2 row-cols-sm-1 row-cols-xl-3 justify-content-left">
                     {medicines.length > 0? (
