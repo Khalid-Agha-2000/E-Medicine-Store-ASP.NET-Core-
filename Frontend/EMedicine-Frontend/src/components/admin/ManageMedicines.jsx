@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
+import { useFlashMessage } from "../FlashMessageContext";
 
 export default function AdminDashboard() {
     const navigate = useNavigate();
+    const {setFlashMessage} = useFlashMessage();
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -32,8 +34,13 @@ export default function AdminDashboard() {
             }
         })
         .then(res => res.json())
-        .then(() => {
-            setMedicines(prev => prev.filter(med => med.id !== id))
+        .then((data) => {
+            if(data.statusCode === 200){
+                setFlashMessage({message: "Medicine was deleted successfully", type: "danger"});
+                setMedicines(prev => prev.filter(med => med.id !== id));
+            } else {
+                setFlashMessage({message: "Medicine was not deleted, try again!", type: "danger"});
+            }
         })
         .catch(err => console.error(err));
     }

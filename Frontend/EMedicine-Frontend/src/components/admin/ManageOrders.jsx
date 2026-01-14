@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useFlashMessage } from "../FlashMessageContext";
 
 export default function ManageOrders() {
     let token = localStorage.getItem("token");
+    const {setFlashMessage} = useFlashMessage();
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
@@ -39,7 +41,15 @@ export default function ManageOrders() {
                         "Content-Type": "application/json"
                     }
                 }
-            );
+            )
+            .then(res => res.json())
+            .then(data => {
+                if(data.statusCode === 200){
+                    setFlashMessage({message: "Order status changed successfully", type: "success"});
+                } else {
+                    setFlashMessage({message: "Order status change failed, try again!", type: "danger"});
+                }
+            });
         } catch (err) {
             console.error("Failed to update status", err);
         }

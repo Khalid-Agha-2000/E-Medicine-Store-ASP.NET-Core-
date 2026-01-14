@@ -24,7 +24,7 @@ namespace EMedicineBE.Models
         public decimal Discount { get; set; }
 
         [Required(ErrorMessage = "Medicine quantity is required")]
-        [Range(1, 100, ErrorMessage = "A valid quantity is required")]
+        [Range(1, 1000, ErrorMessage = "A valid quantity is required")]
         public int Quantity { get; set; }
         public DateTime? ExpDate { get; set; }
         public string? ImageUrl { get; set; }

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useFlashMessage } from "../FlashMessageContext";
 
 export default function ManageCustomers() {
     let token = localStorage.getItem("token");
+    const {setFlashMessage} = useFlashMessage();
 
     const [customers, setCustomers] = useState([]);
 
@@ -27,8 +29,13 @@ export default function ManageCustomers() {
             }
         })
         .then(res => res.json())
-        .then(() => {
-            setCustomers(prev => prev.filter(user => user.id !== id))
+        .then((data) => {
+            if(data.statusCode === 200){
+                setFlashMessage({message: "Medicine data saved successfully", type: "success"});
+                setCustomers(prev => prev.filter(user => user.id !== id));
+            } else {
+                setFlashMessage({message: "Medicine data was not saved, try again!", type: "danger"});
+            }
         })
         .catch(err => console.error(err));
     };

@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useFlashMessage } from "../FlashMessageContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AddEditMedicine() {
     const [validated, setValidated] = useState(false);
+    const {setFlashMessage} = useFlashMessage();
+    const navigate = useNavigate();
 
     const[formData, setFormData] = useState({
         Name: "",
@@ -28,7 +32,7 @@ export default function AddEditMedicine() {
         if(medicine) {
             setFormData({
                 ...medicine,
-                ID: medicine.ID || medicine.id || medicine.iD,
+                ID: medicine.ID,
             });
         }
     }, [medicine])
@@ -55,6 +59,14 @@ export default function AddEditMedicine() {
             body: JSON.stringify(dataToSend),
         })
         .then(res => res.json())
+        .then(data => {
+            if(data.statusCode === 200){
+                setFlashMessage({message: "Medicine data saved successfully", type: "success"});
+                navigate("/manage-medicines");
+            } else {
+                setFlashMessage({message: "Medicine data was not saved, try again!", type: "danger"});
+            }
+        })
         .catch(err => console.error(err));
     }
 

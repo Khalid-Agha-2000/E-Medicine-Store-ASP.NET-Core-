@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
     return (
         <footer className="bg-primary text-light mt-5">
@@ -5,7 +7,7 @@ export default function Footer() {
                 <div className="row">
 
                     <div className="col-md-6 px-5">
-                        <h5 className="mb-3">EMedicine</h5>
+                        <h5 className="mb-3" style={{ maxWidth: '350px', marginRight: "55px", marginTop: "20px"}}>EMedicine</h5>
                         <p className="mb-2">
                             EMedicine is a simple online pharmacy platform built to
                             demonstrate a full-stack application using .NET Core Web API
@@ -17,13 +19,12 @@ export default function Footer() {
                     </div>
 
                     <div className="col-md-6">
-                        <div className="ms-auto" style={{ maxWidth: '350px' }}>
+                        <div className="ms-auto" style={{ maxWidth: '350px', marginRight: "55px", marginTop: "20px"}}>
                             <h5 className="mb-3">Quick Links</h5>
-                            <p className="mb-2">Home</p>
-                            <p className="mb-2">Shop</p>
-                            <p className="mb-2">Cart</p>
-                            <p className="mb-2">Orders</p>
-                            <p className="mb-0">Profile</p>
+                            <p className="mb-2"><Link style={{color: "white"}} to={"/shop"}>Shop</Link></p>
+                            <p className="mb-2"><Link style={{color: "white"}} to={"/cart"}>Cart</Link></p>
+                            <p className="mb-2"><Link style={{color: "white"}} to={"/orders"}>Orders</Link></p>
+                            <p className="mb-0"><Link style={{color: "white"}} to={"/profile"}>Profile</Link></p>
                         </div>
                     </div>
                 </div>
