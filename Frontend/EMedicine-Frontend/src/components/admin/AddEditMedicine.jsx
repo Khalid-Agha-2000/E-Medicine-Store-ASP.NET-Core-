@@ -42,6 +42,7 @@ export default function AddEditMedicine() {
     const handleSave = () => {
         const dataToSend = {
             ...formData,
+            Discount: formData.Discount === "" ? null : Number(formData.Discount),
             ExpDate: new Date().toISOString(),
             Status: "In Stock"
         }
@@ -86,6 +87,7 @@ export default function AddEditMedicine() {
                             onChange={handleChange}
                             placeholder="Enter medicine name"
                             required
+                            minLength={6}
                             />
                             <div className="invalid-feedback">Please enter medicine name (at least 6 characters)</div>
                         </div>
@@ -99,6 +101,7 @@ export default function AddEditMedicine() {
                             onChange={handleChange}
                             placeholder="Enter manufacturer"
                             required
+                            minLength={6}
                             />
                             <div className="invalid-feedback">Please enter manufacturer (at least 6 characters)</div>
                         </div>
@@ -130,6 +133,8 @@ export default function AddEditMedicine() {
                             className="form-control"
                             onChange={handleChange}
                             placeholder="Enter discount"
+                            min={0}
+                            max={99}
                             />
                         </div>
 
@@ -144,6 +149,7 @@ export default function AddEditMedicine() {
                             placeholder="Enter stock amount"
                             required
                             min={1}
+                            max={1000}
                             />
                             <div className="invalid-feedback">Stock must be at least 1</div>
                         </div>
@@ -157,7 +163,9 @@ export default function AddEditMedicine() {
                             className="form-control"
                             onChange={handleChange}
                             placeholder="Enter image URL"
+                            required
                             />
+                            <div className="invalid-feedback">Enter an image URL</div>
                         </div>
 
                         <div className="mb-3">

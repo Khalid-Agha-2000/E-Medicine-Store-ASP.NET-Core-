@@ -1,29 +1,35 @@
 import { useEffect, useState } from "react";
 import {jwtDecode} from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import React from "react";
 
 export default function Orders() {
-
+    const [orders, setOrders] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
-    let token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     let userId;
 
-    if(token){
+    if (token) {
         const decoded = jwtDecode(token);
         userId = parseInt(decoded.sub, 10);
     }
 
-    const [orders, setOrders] = useState([]);
+    const itemsPerPage = 3;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentOrders = orders.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(orders.length / itemsPerPage);
+    const visiblePages = Array.from({ length: totalPages }, (_, i) => i + 1)
+        .filter(page => page >= currentPage - 2 && page <= currentPage + 2);
 
     useEffect(() => {
-        if(!userId) return;
+        if (!userId) return;
 
         fetch(`http://localhost:5001/User/order-list/${userId}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
-                "Content-type": "application/json"
+                "Content-Type": "application/json"
             }
         })
         .then(res => res.json())
@@ -31,18 +37,15 @@ export default function Orders() {
             setOrders(data.listOrders || []);
         })
         .catch(err => console.error(err));
-    },[]);
+    }, [userId]);
 
     return (
         <div className="container my-5 page-content">
             <h2 className="text-center mb-4">Your Orders</h2>
 
-            {orders.length > 0 ? (
-                orders.map(order => (
-                    <div
-                        key={order.id}
-                        className="border rounded p-4 mb-4 shadow-sm"
-                    >
+            {currentOrders.length > 0 ? (
+                currentOrders.map(order => (
+                    <div key={order.id} className="border rounded p-4 mb-4 shadow-sm">
                         <div className="row mb-3">
                             <div className="col-md-4">
                                 <strong>Order ID</strong>
@@ -84,6 +87,26 @@ export default function Orders() {
                         Shop Now
                     </button>
                 </div>
+            )}
+
+            {totalPages > 1 && (
+                <nav className="d-flex justify-content-center mt-4">
+                    <ul className="pagination">
+                        {visiblePages.map(pageNumber => (
+                            <li
+                                key={pageNumber}
+                                className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
+                            >
+                                <button
+                                    className="page-link"
+                                    onClick={() => setCurrentPage(pageNumber)}
+                                >
+                                    {pageNumber}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
             )}
         </div>
     );

@@ -7,8 +7,20 @@ import { useFlashMessage } from "../FlashMessageContext";
 export default function Shop() {
     const {setFlashMessage} = useFlashMessage();
     const [medicines, setMedicines] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const token = localStorage.getItem("token");
     let userId;
+
+    //pagination
+    const itemsPerPage = 6;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentMedicines = medicines.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(medicines.length / itemsPerPage);
+    const visiblePages = Array.from({ length: totalPages }, (_, i) => i + 1)
+    .filter(page =>
+        page >= currentPage - 2 && page <= currentPage + 2
+    );
 
     useEffect(() => {
         fetch("http://localhost:5001/Medicine/shop", {
@@ -60,8 +72,8 @@ export default function Shop() {
         <section className="py-5 mt-3 page-content">
             <div className="container px-4 px-lg-5 mt-5">
                 <div className="row gx-4 gx-lg-5 row-cols-md-2 row-cols-sm-1 row-cols-xl-3 justify-content-left">
-                    {medicines.length > 0? (
-                        medicines.map((med, index) => (
+                    {currentMedicines.length > 0 ? (
+                        currentMedicines.map((med) => (
                             <div className="col mb-5" key={med.id}>
                                     <div className="card h-100">
                                         <Link to={`/medicine/${med.id}`}>
@@ -84,6 +96,25 @@ export default function Shop() {
                     )}
                 </div>
             </div>
+            <nav className="d-flex justify-content-center">
+                <ul className="pagination">
+                    {visiblePages.map(pageNumber => {
+                        return(
+                            <li
+                                key={pageNumber}
+                                className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
+                            >
+                                <button
+                                    className="page-link"
+                                    onClick={() => setCurrentPage(pageNumber)}
+                                >
+                                    {pageNumber}
+                                </button>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </nav>
         </section>
     );
 }

@@ -25,7 +25,7 @@ namespace EMedicineBE.Services.Medicine
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 404;
                 response.StatusMessage = "No medicines found";
             }
             return response;
@@ -37,6 +37,16 @@ namespace EMedicineBE.Services.Medicine
             var medicine = await _context.Medicines
                 .FirstOrDefaultAsync(m => m.ID == id);
             response.medicine = medicine;
+            if(medicine != null)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "User returned";
+            }
+            else
+            {
+                response.StatusCode = 404;
+                response.StatusMessage = "User not found";
+            }
             return response;
         }
 
@@ -48,10 +58,20 @@ namespace EMedicineBE.Services.Medicine
 
             response.medicine = medicine;
             _context.Medicines.Add(medicine);
-            await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
 
-            response.StatusCode = 200;
-            response.StatusMessage = "Medicine Saved Successfully";
+            if(result > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Medicine Saved Successfully";
+            }
+            else
+            {
+                response.StatusCode = 400;
+                response.StatusMessage = "Medicine was not saved";
+            }
+
+            
             return response;
         }
         
@@ -89,7 +109,7 @@ namespace EMedicineBE.Services.Medicine
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 404;
                 response.StatusMessage = "Medicine not found";
             }
             
@@ -110,7 +130,7 @@ namespace EMedicineBE.Services.Medicine
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 404;
                 response.StatusMessage = "Could not find medicine";
             }
             return response;

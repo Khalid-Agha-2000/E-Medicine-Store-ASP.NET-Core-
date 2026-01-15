@@ -35,7 +35,7 @@ namespace EMedicineBE.Services.User
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 400;
                 response.StatusMessage = "Registration Failed!";
             }
             Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(users));
@@ -74,7 +74,7 @@ namespace EMedicineBE.Services.User
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 401;
                 response.StatusMessage = "Invalid user";
             }
             return response;
@@ -87,7 +87,7 @@ namespace EMedicineBE.Services.User
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
-                response.StatusCode = 100;
+                response.StatusCode = 404;
                 response.StatusMessage = "User not found";
                 return response;
             }
@@ -120,7 +120,7 @@ namespace EMedicineBE.Services.User
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 40;
                 response.StatusMessage = "User not Found";
             }
 
@@ -160,6 +160,12 @@ namespace EMedicineBE.Services.User
             var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == id);
             if(user != null)
             {
+                if(user.Type == "admin")
+                {
+                    response.StatusCode = 403;
+                    response.StatusMessage = "Cannot delete admins";
+                    return response;
+                }
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
                 response.StatusCode = 200;
@@ -167,7 +173,7 @@ namespace EMedicineBE.Services.User
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 404;
                 response.StatusMessage = "User not found";
             }
             return response;

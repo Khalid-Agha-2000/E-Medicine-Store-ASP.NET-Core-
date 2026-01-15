@@ -26,7 +26,7 @@ namespace EMedicineBE.Services.Cart
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 404;
                 response.StatusMessage = "No Medicines found";
             }
             return response;
@@ -120,7 +120,7 @@ namespace EMedicineBE.Services.Cart
 
             if(cartItems.Count == 0)
             {
-                response.StatusCode = 100;
+                response.StatusCode = 400;
                 response.StatusMessage = "Cart is empty";
                 return response;
             }
@@ -178,7 +178,7 @@ namespace EMedicineBE.Services.Cart
             }
             else
             {
-                response.StatusCode = 100;
+                response.StatusCode = 404;
                 response.StatusMessage = "No order found";
             }
             return response;

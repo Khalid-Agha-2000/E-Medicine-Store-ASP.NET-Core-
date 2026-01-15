@@ -4,8 +4,17 @@ import { useFlashMessage } from "../FlashMessageContext";
 export default function ManageCustomers() {
     let token = localStorage.getItem("token");
     const {setFlashMessage} = useFlashMessage();
-
     const [customers, setCustomers] = useState([]);
+
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentCustomers = customers.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(customers.length / itemsPerPage);
+    const visiblePages = Array.from({ length: totalPages }, (_, i) => i + 1)
+        .filter(page => page >= currentPage - 2 && page <= currentPage + 2);
 
     useEffect(() => {
         fetch("http://localhost:5001/User/get-all-users", {
@@ -54,20 +63,41 @@ export default function ManageCustomers() {
                     </tr>
                 </thead>
                 <tbody>
-                    {customers.map(user => (
+                    {currentCustomers.map(user => (
                         <tr key={user.id}>
                             <td>{user.firstName} {user.lastName}</td>
                             <td>{user.email}</td>
                             <td>{user.type}</td>
                             <td>
-                                <button onClick={() => {handleDelete(user.id)}} className="btn btn-sm btn-danger">
-                                    Delete
-                                </button>
+                                {user.type === "user" ? (
+                                    <button onClick={() => {handleDelete(user.id)}} className="btn btn-sm btn-danger">
+                                        Delete
+                                    </button>
+                                ) : null }
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            {totalPages > 1 && (
+                    <nav className="d-flex justify-content-center mt-3">
+                        <ul className="pagination">
+                            {visiblePages.map(pageNumber => (
+                                <li
+                                    key={pageNumber}
+                                    className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
+                                >
+                                    <button
+                                        className="page-link"
+                                        onClick={() => setCurrentPage(pageNumber)}
+                                    >
+                                        {pageNumber}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                )}
         </div>
     );
 }

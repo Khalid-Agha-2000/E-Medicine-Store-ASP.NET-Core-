@@ -79,16 +79,6 @@ export default function MedicineDetails() {
 
                     <p className="text-muted fs-5">
                         {med.description}
-                        Paracetamol is a widely used medicine for relieving mild to moderate
-                        pain and reducing fever. It is commonly taken for headaches, muscle
-                        pain, back pain, toothaches, and cold or flu-related discomfort.
-                        This medicine is suitable for daily use when taken according to the
-                        recommended dosage and is generally gentle on the stomach. <br /><br />
-
-                        Each tablet contains 500mg of Paracetamol and is manufactured under
-                        strict pharmaceutical standards to ensure safety and effectiveness.
-                        It is recommended to consult a healthcare professional before use
-                        if you are pregnant, breastfeeding, or taking other medications.
                     </p>
 
                     <p className="mb-4">

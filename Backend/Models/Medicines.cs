@@ -21,7 +21,9 @@ namespace EMedicineBE.Models
         [Required(ErrorMessage = "Medicine description is required")]
         [StringLength(10000, MinimumLength = 20, ErrorMessage = "A valid description is required")]
         public string? Description { get; set; }
-        public decimal Discount { get; set; }
+
+        [Range(0, 99, ErrorMessage = "Discount must be between 0 and 100")]
+        public decimal? Discount { get; set; }
 
         [Required(ErrorMessage = "Medicine quantity is required")]
         [Range(1, 1000, ErrorMessage = "A valid quantity is required")]
