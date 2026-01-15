@@ -9,6 +9,10 @@ using EMedicineBE.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 // Controllers
 builder.Services.AddControllers();
 
@@ -63,23 +67,36 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+// services
 builder.Services.AddScoped<IMedicineService, MedicineService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenLocalhost(5001); // choose any port you like
+    options.ListenLocalhost(5001);
 });
 
+// app
 var app = builder.Build();
 
+// swagger
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+// error handling middleware
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
+// authorization and authentication
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
+// controllers
 app.MapControllers();
 
 app.Run();
