@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useFlashMessage } from "../FlashMessageContext";
 import { useNavigate } from "react-router-dom";
+import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+import.meta.env.VITE_CLOUDINARY_PRESET
+
 
 export default function AddEditMedicine() {
     const [validated, setValidated] = useState(false);
     const {setFlashMessage} = useFlashMessage();
     const navigate = useNavigate();
+    const [imageFile, setImageFile] = useState(null);
 
     const[formData, setFormData] = useState({
         Name: "",
@@ -18,7 +22,8 @@ export default function AddEditMedicine() {
         Description: ""
     });
 
-    const handleChange = (e) => {
+    const handleChange = async  (e) => {
+        
         const {name, value} = e.target;
         setFormData(prev => ({
             ...prev,
@@ -39,36 +44,61 @@ export default function AddEditMedicine() {
 
     const token = localStorage.getItem("token");
 
-    const handleSave = () => {
-        const dataToSend = {
-            ...formData,
-            Discount: formData.Discount === "" ? null : Number(formData.Discount),
-            ExpDate: new Date().toISOString(),
-            Status: "In Stock"
-        }
+    const handleSave = async () => {
+        try {
+            let imageUrl = formData.ImageUrl;
 
-        const url = formData.ID?
-        `http://localhost:5001/Medicine/edit-medicine/${formData.ID}`
-        :"http://localhost:5001/Medicine/add-medicine";
+            if (imageFile) {
+                const fd = new FormData();
+                fd.append("file", imageFile);
+                fd.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
 
-        fetch(url, {
-            method: formData.ID? "PUT": "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(dataToSend),
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.statusCode === 200){
-                setFlashMessage({message: "Medicine data saved successfully", type: "success"});
+                const cloudRes = await fetch(
+                    `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                    {
+                        method: "POST",
+                        body: fd
+                    }
+                );
+
+                const cloudData = await cloudRes.json();
+                imageUrl = cloudData.secure_url;
+            }
+
+            const dataToSend = {
+                ...formData,
+                ImageUrl: imageUrl,
+                Discount: formData.Discount === "" ? null : Number(formData.Discount),
+                ExpDate: new Date().toISOString(),
+                Status: "In Stock"
+            };
+
+            const url = formData.ID
+                ? `http://localhost:5001/Medicine/edit-medicine/${formData.ID}`
+                : "http://localhost:5001/Medicine/add-medicine";
+
+            const res = await fetch(url, {
+                method: formData.ID ? "PUT" : "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dataToSend)
+            });
+
+            const data = await res.json();
+
+            if (data.statusCode === 200) {
+                setFlashMessage({ message: "Medicine data saved successfully", type: "success" });
                 navigate("/manage-medicines");
             } else {
-                setFlashMessage({message: "Medicine data was not saved, try again!", type: "danger"});
+                setFlashMessage({ message: "Medicine data was not saved, try again!", type: "danger" });
             }
-        })
-        .catch(err => console.error(err));
+        } catch (err) {
+            console.error(err);
+            setFlashMessage({ message: "Something went wrong!", type: "danger" });
+        }
+
     }
 
     return (
@@ -155,17 +185,17 @@ export default function AddEditMedicine() {
                         </div>
 
                         <div className="mb-3">
-                            <label className="form-label">Image URL</label>
+                            <label className="form-label">Image </label>
                             <input
-                            value={formData.ImageUrl}
+                            placeholder="Select your image"
                             name="ImageUrl"
-                            type="text"
+                            type="file"
+                            accept="image/*"
                             className="form-control"
-                            onChange={handleChange}
-                            placeholder="Enter image URL"
-                            required
+                            onChange={(e) => setImageFile(e.target.files[0])}
+                            required={!formData.ID}
                             />
-                            <div className="invalid-feedback">Enter an image URL</div>
+                            <div className="invalid-feedback">Select your medicine image</div>
                         </div>
 
                         <div className="mb-3">
