@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../styles/Registration.css";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useFlashMessage} from "./FlashMessageContext";
 
 
@@ -58,7 +58,7 @@ const {setFlashMessage} = useFlashMessage();
                 <div className="row d-flex justify-content-center align-items-center py-5">
                     <div className="col-md-9 col-lg-6 col-xl-5 mb-4 mb-lg-0">
                         <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                            src="https://res.cloudinary.com/dmgc9mh7j/image/upload/v1768669078/Logo_for_EMedicine_cbpodu.png"
                             className="img-fluid"
                             alt="Sample image"
                         />
@@ -161,9 +161,9 @@ const {setFlashMessage} = useFlashMessage();
                                 </button>
                                 <p className="small fw-bold mt-2 pt-1 mb-0">
                                     Already have an account?{' '}
-                                    <a href="/login" className="link-danger">
+                                    <Link to={"/login"} className="link-danger">
                                         Login
-                                    </a>
+                                    </Link>
                                 </p>
                             </div>
                         </form>

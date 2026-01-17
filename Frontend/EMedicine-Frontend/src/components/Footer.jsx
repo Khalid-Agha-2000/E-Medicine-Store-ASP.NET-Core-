@@ -5,7 +5,6 @@ export default function Footer() {
         <footer className="bg-primary text-light mt-5">
             <div className="container py-4">
                 <div className="row">
-
                     <div className="col-md-6 px-5">
                         <h5 className="mb-3" style={{ maxWidth: '350px', marginRight: "55px", marginTop: "20px"}}>EMedicine</h5>
                         <p className="mb-2">
@@ -19,7 +18,7 @@ export default function Footer() {
                     </div>
 
                     <div className="col-md-6">
-                        <div className="ms-auto" style={{ maxWidth: '350px', marginRight: "55px", marginTop: "20px"}}>
+                        <div className="ms-auto" style={{ maxWidth: '350px', marginRight: "0px", marginTop: "20px"}}>
                             <h5 className="mb-3">Quick Links</h5>
                             <p className="mb-2"><Link style={{color: "white"}} to={"/shop"}>Shop</Link></p>
                             <p className="mb-2"><Link style={{color: "white"}} to={"/cart"}>Cart</Link></p>

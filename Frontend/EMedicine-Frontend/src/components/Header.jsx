@@ -33,7 +33,14 @@ export default function Header() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
             <div className="container">
-            <Link className="navbar-brand" to="/shop">EMedicine</Link>
+            <Link className="navbar-brand" to="/shop">
+                <img
+                    src="https://res.cloudinary.com/dmgc9mh7j/image/upload/v1768669078/Logo_for_EMedicine_cbpodu.png"
+                    alt="EMedicine-logo"
+                    className="img-fluid"
+                    style={{ height: "40px", width: "auto", filter: "drop-shadow(0 0px 3px rgba(255,255,255,1))" }}
+                />
+            </Link>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>

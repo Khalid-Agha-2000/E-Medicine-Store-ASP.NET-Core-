@@ -71,7 +71,7 @@ export default function Shop() {
     return (
         <section className="py-5 mt-3 page-content">
             <div className="container px-4 px-lg-5 mt-5">
-                <div className="row gx-4 gx-lg-5 row-cols-md-2 row-cols-sm-1 row-cols-xl-3 justify-content-left">
+                <div className="row gx-4 gx-lg-5  row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-left">
                     {currentMedicines.length > 0 ? (
                         currentMedicines.map((med) => (
                             <div className="col mb-5" key={med.id}>

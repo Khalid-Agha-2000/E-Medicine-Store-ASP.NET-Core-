@@ -1,7 +1,7 @@
- using EMedicineBE.Models;
- using EMedicineBE.Data;
- using Microsoft.EntityFrameworkCore;
- using Microsoft.AspNetCore.Mvc;
+using EMedicineBE.Models;
+using EMedicineBE.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -47,7 +47,8 @@ namespace EMedicineBE.Services.User
             Response response = new Response();
 
             var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
+                .FirstOrDefaultAsync(u => u.Email == login.Email && 
+                    EF.Functions.Collate(u.Password, "SQL_Latin1_General_CP1_CS_AS") == login.Password);
             
             if(existingUser != null)
             {
