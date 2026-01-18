@@ -112,32 +112,58 @@ namespace EMedicineBE.Services.Cart
         }
 
         public async Task<Response> PlaceAnOrderAsync(int userId)
-        {
+{
             Response response = new Response();
 
             var cartItems = await _context.Cart
-                .Where(c => c.UserId == userId).ToListAsync();
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
 
-            if(cartItems.Count == 0)
+            if (cartItems.Count == 0)
             {
                 response.StatusCode = 400;
-                response.StatusMessage = "Cart is empty";
+                response.StatusMessage = "Your cart is empty";
                 return response;
+            }
+
+            foreach (var item in cartItems)
+            {
+                var medicine = await _context.Medicines
+                    .FirstOrDefaultAsync(m => m.ID == item.MedicineID);
+
+                if (medicine == null)
+                {
+                    response.StatusCode = 404;
+                    response.StatusMessage = "Medicine not found";
+                    return response;
+                }
+
+                if (medicine.Quantity < item.Quantity)
+                {
+                    response.StatusCode = 400;
+                    response.StatusMessage = $"Not enough stock for {medicine.Name}";
+                    return response;
+                }
             }
 
             Orders order = new Orders
             {
                 UserId = userId,
                 OrderTotal = cartItems.Sum(c => c.TotalPrice),
-                OrderStatus = "Pending",
+                OrderStatus = "Pending"
             };
 
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
 
-            foreach(var item in cartItems)
+            foreach (var item in cartItems)
             {
-                OrderItems orderitem = new OrderItems
+                var medicine = await _context.Medicines
+                    .FirstAsync(m => m.ID == item.MedicineID);
+
+                medicine.Quantity -= item.Quantity;
+
+                OrderItems orderItem = new OrderItems
                 {
                     OrderID = order.ID,
                     MedicineID = item.MedicineID,
@@ -145,10 +171,13 @@ namespace EMedicineBE.Services.Cart
                     UnitPrice = item.UnitPrice,
                     TotalPrice = item.TotalPrice
                 };
-                await _context.OrderItems.AddAsync(orderitem);
+
+                await _context.OrderItems.AddAsync(orderItem);
             }
+
             _context.Cart.RemoveRange(cartItems);
             await _context.SaveChangesAsync();
+
             response.StatusCode = 200;
             response.StatusMessage = "Order placed successfully";
             response.order = order;
