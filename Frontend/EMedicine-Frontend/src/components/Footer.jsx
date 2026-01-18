@@ -5,20 +5,20 @@ export default function Footer() {
         <footer className="bg-primary text-light mt-5">
             <div className="container py-4">
                 <div className="row">
-                    <div className="col-md-6 px-5">
-                        <h5 className="mb-3" style={{ maxWidth: '350px', marginRight: "55px", marginTop: "20px"}}>EMedicine</h5>
+                    <div className="col-md-6 px-3">
+                        <h5 className="mb-3" style={{ maxWidth: '350px', marginTop: "20px" }}>EMedicine</h5>
                         <p className="mb-2">
-                            EMedicine is a simple online pharmacy platform built to
-                            demonstrate a full-stack application using .NET Core Web API
-                            and React.
+                             EMedicine — full-stack e-commerce pharmacy system
+                             with Admin and User sides, built with React,
+                             .NET Core Web API, and SQL Server.
                         </p>
                         <p className="mb-0">
                             Fast ordering, clear management, and a clean user experience.
                         </p>
                     </div>
 
-                    <div className="col-md-6">
-                        <div className="ms-auto" style={{ maxWidth: '350px', marginRight: "0px", marginTop: "20px"}}>
+                    <div className="col-md-6 px-3">
+                        <div style={{ maxWidth: '350px', marginTop: "20px" }}>
                             <h5 className="mb-3">Quick Links</h5>
                             <p className="mb-2"><Link style={{color: "white"}} to={"/shop"}>Shop</Link></p>
                             <p className="mb-2"><Link style={{color: "white"}} to={"/cart"}>Cart</Link></p>

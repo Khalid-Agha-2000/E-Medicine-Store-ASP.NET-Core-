@@ -68,7 +68,7 @@ export default function MedicineDetails() {
                     style={{ objectFit: "fit", maxHeight: "500px" }}
                 />
 
-                <div className="card-body p-5">
+                <div className="card-body">
                     <h2 className="card-title mb-3">
                         {med.name} - {med.manufacturer}
                     </h2>
@@ -77,13 +77,22 @@ export default function MedicineDetails() {
                         {med.unitPrice}₺
                     </h4>
 
-                    <p className="text-muted fs-5">
-                        {med.description}
-                    </p>
+                    <h4> Descriptioin</h4>
+                    
+                    <div className="min-h-25% p-2" style={{minHeight: "200px", height: "auto", border: "1px solid black", borderRadius: "4px"}}>
+                        <p className="text-muted fs-5">
+                            {med.description}
+                        </p>
+                    </div>
 
                     <p className="mb-4">
                         <strong>Status:</strong>{" "}
-                        <span className="text-success">In Stock</span>
+                        {med.quantity > 0 ? (
+                            <span className="text-success">In Stock</span>
+                        ) : 
+                        (<span className="text-danger">Out of Stock</span>)
+                        }
+                        
                         <span className="ms-3 text-muted">
                             ({med.quantity} units available)
                         </span>

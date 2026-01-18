@@ -72,7 +72,7 @@ export default function Cart() {
                 setFlashMessage({message: "Your order was placed successfully", type: "success"});
                 navigate("/shop");
             } else {
-                setFlashMessage({message: "Failed to place an order. Please try again!", type: "danger"});
+                setFlashMessage({message: `${data.statusMessage}`, type: "danger"});
             }
         })
         .catch(err => console.error(err));
