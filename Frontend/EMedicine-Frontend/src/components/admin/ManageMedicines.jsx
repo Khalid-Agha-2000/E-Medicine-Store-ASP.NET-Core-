@@ -22,7 +22,7 @@ export default function AdminDashboard() {
 
 
     useEffect(() => {
-        fetch("http://localhost:5001/Medicine/get-medicines", {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/Medicine/get-medicines`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -35,7 +35,7 @@ export default function AdminDashboard() {
     }, []);
 
     const handleDelete = (id) => {
-        fetch(`http://localhost:5001/Medicine/delete-medicine/${id}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/Medicine/delete-medicine/${id}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`,

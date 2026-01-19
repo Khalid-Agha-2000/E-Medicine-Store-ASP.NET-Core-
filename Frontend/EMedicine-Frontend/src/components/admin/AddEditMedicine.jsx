@@ -74,8 +74,8 @@ export default function AddEditMedicine() {
             };
 
             const url = formData.ID
-                ? `http://localhost:5001/Medicine/edit-medicine/${formData.ID}`
-                : "http://localhost:5001/Medicine/add-medicine";
+                ? `${import.meta.env.VITE_API_BASE_URL}/Medicine/edit-medicine/${formData.ID}`
+                : `${import.meta.env.VITE_API_BASE_URL}/Medicine/add-medicine`;
 
             const res = await fetch(url, {
                 method: formData.ID ? "PUT" : "POST",

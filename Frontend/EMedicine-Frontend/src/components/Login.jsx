@@ -23,7 +23,7 @@ export default function Login() {
 
     const handleLogin = () => {
         setValidated(true);
-        fetch("http://localhost:5001/User/login", {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/User/login`, {
             method: "POST",
             headers: {"Content-type": "application/json"},
             body: JSON.stringify(formData),

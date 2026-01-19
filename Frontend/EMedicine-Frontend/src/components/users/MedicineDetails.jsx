@@ -9,7 +9,7 @@ export default function MedicineDetails() {
 
     const [med, setMed] = useState(null);
     useEffect(() => {
-        fetch(`http://localhost:5001/Medicine/get-medicine/${id}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/Medicine/get-medicine/${id}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -27,7 +27,7 @@ export default function MedicineDetails() {
     }
 
     const addToCart = (id, quantity, userId) => {
-        fetch(`http://localhost:5001/cart/add-to-cart/${id}/${quantity}/${userId}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/cart/add-to-cart/${id}/${quantity}/${userId}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,

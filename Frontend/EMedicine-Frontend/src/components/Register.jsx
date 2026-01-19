@@ -32,7 +32,7 @@ const {setFlashMessage} = useFlashMessage();
             return;
         }
 
-        fetch("http://localhost:5001/User/register", {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/User/register`, {
             method: "POST",
             headers: {"Content-type": "application/json"},
             body: JSON.stringify(formData)

@@ -31,7 +31,7 @@ export default function Profile() {
     }
 
     const handleUpdate = () => {
-        fetch(`http://localhost:5001/User/update-profile/${id}`, {method: "PUT",
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/User/update-profile/${id}`, {method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -51,7 +51,7 @@ export default function Profile() {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:5001/User/get-user/${id}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/User/get-user/${id}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,

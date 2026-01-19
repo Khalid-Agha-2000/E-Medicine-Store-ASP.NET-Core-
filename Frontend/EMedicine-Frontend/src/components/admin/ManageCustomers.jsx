@@ -17,7 +17,7 @@ export default function ManageCustomers() {
         .filter(page => page >= currentPage - 2 && page <= currentPage + 2);
 
     useEffect(() => {
-        fetch("http://localhost:5001/User/get-all-users", {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/User/get-all-users`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -30,7 +30,7 @@ export default function ManageCustomers() {
     }, []);
 
     const handleDelete = (id) => {
-        fetch(`http://localhost:5001/User/delete-user/${id}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/User/delete-user/${id}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`,

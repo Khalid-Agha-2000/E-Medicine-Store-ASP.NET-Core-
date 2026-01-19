@@ -25,7 +25,7 @@ export default function Orders() {
     useEffect(() => {
         if (!userId) return;
 
-        fetch(`http://localhost:5001/User/order-list/${userId}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/User/order-list/${userId}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,

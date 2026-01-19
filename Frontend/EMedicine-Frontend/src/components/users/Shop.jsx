@@ -23,7 +23,7 @@ export default function Shop() {
     );
 
     useEffect(() => {
-        fetch("http://localhost:5001/Medicine/shop", {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/Medicine/shop`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -50,7 +50,7 @@ export default function Shop() {
     }
 
     const addToCart = (medId, quantity, id) => {
-        fetch(`http://localhost:5001/cart/add-to-cart/${medId}/${quantity}/${id}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/cart/add-to-cart/${medId}/${quantity}/${id}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,

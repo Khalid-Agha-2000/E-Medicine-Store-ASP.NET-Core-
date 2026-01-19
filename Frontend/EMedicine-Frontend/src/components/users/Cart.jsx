@@ -19,7 +19,7 @@ export default function Cart() {
     const [carts, setCarts] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5001/Cart/get-cart/${userId}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/Cart/get-cart/${userId}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -39,7 +39,7 @@ export default function Cart() {
     }, []);
 
     const handleDelete = (id) => {
-        fetch(`http://localhost:5001/Cart/delete/${id}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/Cart/delete/${id}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -59,7 +59,7 @@ export default function Cart() {
     };
 
     const handlePlaceOrder = () => {
-        fetch(`http://localhost:5001/Cart/place-an-order/${userId}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/Cart/place-an-order/${userId}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,

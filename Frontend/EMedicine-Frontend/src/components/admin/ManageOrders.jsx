@@ -19,7 +19,7 @@ export default function ManageOrders() {
         .filter(page => page >= currentPage - 2 && page <= currentPage + 2);
 
     useEffect(() => {
-        fetch("http://localhost:5001/Cart/get-all-orders", {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/Cart/get-all-orders`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -45,7 +45,7 @@ export default function ManageOrders() {
 
         try{
             await fetch(
-                `http://localhost:5001/Cart/update-order-status/${orderId}?status=${newStatus}`,
+                `${import.meta.env.VITE_API_BASE_URL}/Cart/update-order-status/${orderId}?status=${newStatus}`,
                 {
                     method: "PUT",
                     headers: {
