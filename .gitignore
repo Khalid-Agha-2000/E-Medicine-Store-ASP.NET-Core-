@@ -14,3 +14,5 @@
 **/.vscode/
 
 **/.env
+
+backend/appsettings.dev.json
