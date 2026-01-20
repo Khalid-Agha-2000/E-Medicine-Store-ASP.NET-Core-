@@ -9,7 +9,7 @@ using EMedicineBE.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.Dev.json", optional: false, reloadOnChange: true);
+// builder.Configuration.AddJsonFile("appsettings.Dev.json", optional: false, reloadOnChange: true);
 
 // swagger
 builder.Services.AddEndpointsApiExplorer();
