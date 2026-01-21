@@ -24,7 +24,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
-                .WithOrigins("https://emedicine-frontend.netlify.app", "http://localhost:5173")
+                .WithOrigins("https://emedicine-app.netlify.app", "http://localhost:5173")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
