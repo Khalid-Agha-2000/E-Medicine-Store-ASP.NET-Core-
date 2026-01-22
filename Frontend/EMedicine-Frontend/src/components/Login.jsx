@@ -56,7 +56,7 @@ export default function Login() {
                     <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                         <form noValidate className={validated ? "was-validated" : ""}>
                             <p className="lead fw-bold mb-3">Log in</p>
-                            <p className="lead">Please login as an admin</p>
+                            <p className="lead">To see all features login as admin</p>
                             <p>Email: admin@emedicine.com Password: Admin321</p>
                             
                             <div className="form-outline mb-4">
