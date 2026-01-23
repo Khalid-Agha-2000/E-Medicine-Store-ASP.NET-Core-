@@ -58,7 +58,7 @@ export default function MedicineDetails() {
     }
 
     return (
-        <div className="container py-5 my-5">
+        <div className="container-lg py-5 my-5">
             <div className="card shadow-lg border-0">
                 
                 <img
