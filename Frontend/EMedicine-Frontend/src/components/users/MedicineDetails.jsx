@@ -63,10 +63,18 @@ export default function MedicineDetails() {
                 
                 <img
                     src={med.imageUrl}
-                    className="card-img-top"
                     alt="Medicine"
-                    style={{ objectFit: "", maxHeight: "500px" }}
+                    style={{
+                    width: "400px",
+                    maxWidth: "100%",
+                    height: "auto",
+                    objectFit: "contain",
+                    borderRadius: "8px",
+                    display: "block",
+                    margin: "0 auto 20px auto"
+                    }}
                 />
+
 
                 <div className="card-body">
                     <h2 className="card-title mb-3">
