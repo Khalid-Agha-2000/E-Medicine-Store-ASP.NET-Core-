@@ -53,15 +53,6 @@ export default function AddEditMedicine() {
                 fd.append("file", imageFile);
                 fd.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
 
-                // Debug logs
-                console.log("Uploading file:", imageFile);
-                console.log("Cloud name:", import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
-                console.log("Preset:", import.meta.env.VITE_CLOUDINARY_PRESET);
-
-                for (let pair of fd.entries()) {
-                    console.log(pair[0], pair[1]);
-                }
-
                 const cloudRes = await fetch(
                     `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
                     {
@@ -71,7 +62,6 @@ export default function AddEditMedicine() {
                 );
 
                 const cloudData = await cloudRes.json();
-                console.log("Cloudinary response:", cloudData);
                 imageUrl = cloudData.secure_url;
             }
 

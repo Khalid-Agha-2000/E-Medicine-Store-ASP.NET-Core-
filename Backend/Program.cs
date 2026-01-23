@@ -90,6 +90,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+if (app.Environment.IsDevelopment() || true) // <-- temporarily force it on Azure
+{
+    app.UseDeveloperExceptionPage();
+}
+
 // error handling middleware
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
