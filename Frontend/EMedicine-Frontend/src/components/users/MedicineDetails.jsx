@@ -58,14 +58,14 @@ export default function MedicineDetails() {
     }
 
     return (
-        <div className="container-lg py-5 my-5">
+        <div className="container-md py-5 my-5">
             <div className="card shadow-lg border-0">
                 
                 <img
                     src={med.imageUrl}
                     className="card-img-top"
                     alt="Medicine"
-                    style={{ objectFit: "fit", maxHeight: "500px" }}
+                    style={{ objectFit: "", maxHeight: "500px" }}
                 />
 
                 <div className="card-body">
