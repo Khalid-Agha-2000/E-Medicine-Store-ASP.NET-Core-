@@ -60,12 +60,13 @@ export default function MedicineDetails() {
     return (
         <div className="container-md py-5 my-5">
             <div className="card shadow-lg border-0">
-                
+
+                <div style={{ display: "flex", justifyContent: "flex-start" }}>
                 <img
                     src={med.imageUrl}
                     alt="Medicine"
                     style={{
-                    width: "400px",
+                    width: "600px",
                     maxWidth: "100%",
                     height: "auto",
                     objectFit: "contain",
@@ -74,7 +75,7 @@ export default function MedicineDetails() {
                     margin: "0 auto 20px auto"
                     }}
                 />
-
+                </div>
 
                 <div className="card-body">
                     <h2 className="card-title mb-3">
