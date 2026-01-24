@@ -75,10 +75,10 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenLocalhost(5001);
-});
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenLocalhost(5001);
+// });
 
 // app
 var app = builder.Build();
