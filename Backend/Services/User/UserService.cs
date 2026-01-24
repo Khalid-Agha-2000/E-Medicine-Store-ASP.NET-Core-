@@ -28,16 +28,25 @@ namespace EMedicineBE.Services.User
             users.Type = "user";
             await _context.Users.AddAsync(users);
             int result = await _context.SaveChangesAsync();
-            if(result > 0)
+            try
             {
-                response.StatusCode = 200;
-                response.StatusMessage = "User Registered Succesfully";
+                if(result > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "User Registered Succesfully";
+                }
+                else
+                {
+                    response.StatusCode = 400;
+                    response.StatusMessage = "Registration Failed!";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                response.StatusCode = 400;
-                response.StatusMessage = "Registration Failed!";
+                response.StatusCode = 500;
+                response.StatusMessage = ex.InnerException?.Message ?? ex.Message;
             }
+            
             Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(users));
             return response;
         }
