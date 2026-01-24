@@ -47,8 +47,7 @@ namespace EMedicineBE.Services.User
             Response response = new Response();
 
             var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == login.Email && 
-                    EF.Functions.Collate(u.Password, "SQL_Latin1_General_CP1_CS_AS") == login.Password);
+                .FirstOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
             
             if(existingUser != null)
             {
