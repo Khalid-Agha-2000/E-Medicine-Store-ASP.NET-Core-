@@ -2,6 +2,7 @@ using EMedicineBE.Models;
 using EMedicineBE.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,14 +23,15 @@ namespace EMedicineBE.Services.User
         public async Task<Response> RegisterAsync(Users users)
         {
             Response response = new Response();
-            users.CreatedOn = DateTime.Now;
+            try
+            {
+            users.CreatedOn = DateTime.UtcNow;
             users.Status = 1;
             users.Fund = 0;
             users.Type = "user";
             await _context.Users.AddAsync(users);
-            int result = await _context.SaveChangesAsync();
-            try
-            {
+            
+                int result = await _context.SaveChangesAsync();
                 if(result > 0)
                 {
                     response.StatusCode = 200;
