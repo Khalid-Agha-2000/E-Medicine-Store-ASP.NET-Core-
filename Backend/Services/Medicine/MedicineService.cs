@@ -53,7 +53,7 @@ namespace EMedicineBE.Services.Medicine
         public async Task<Response> AddMedicineAsync(Medicines medicine)
         {
             Response response = new Response();
-            medicine.ExpDate = DateTime.Now.AddYears(2);
+            medicine.ExpDate = DateTime.UtcNow.AddYears(2);
             medicine.Status = "In Stock";
 
             response.medicine = medicine;
