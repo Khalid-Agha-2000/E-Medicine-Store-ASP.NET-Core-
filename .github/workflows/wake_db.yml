@@ -1,0 +1,14 @@
+name: Wake Neon DB
+on:
+  schedule:
+    - cron: '*/5 6-16 * * 1-5'
+  workflow_dispatch:
+jobs:
+  ping-db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install psql
+        run: sudo apt-get install -y postgresql-client
+
+      - name: Execute Heartbeat Query
+        run: psql "postgresql://neondb_owner:npg_RUVGYC57uyEp@ep-wispy-violet-a9kxa1f1-pooler.gwc.azure.neon.tech/neondb?sslmode=require&channel_binding=require" -c "SELECT 1;"
