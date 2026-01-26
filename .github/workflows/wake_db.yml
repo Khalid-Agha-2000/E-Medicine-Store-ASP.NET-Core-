@@ -11,4 +11,5 @@ jobs:
         run: sudo apt-get install -y postgresql-client
 
       - name: Execute Heartbeat Query
-        run: psql "postgresql://neondb_owner:npg_RUVGYC57uyEp@ep-wispy-violet-a9kxa1f1-pooler.gwc.azure.neon.tech/neondb?sslmode=require&channel_binding=require" -c "SELECT 1;"
+
+        run: psql "${{ secrets.DATABASE_URL }}" -c "SELECT 1;"
