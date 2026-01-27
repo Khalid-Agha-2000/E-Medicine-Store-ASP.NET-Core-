@@ -92,7 +92,19 @@ export default function Shop() {
                             </div>
                         ))
                     ): (
-                        <p>Sorry, No Medicines Found!</p>
+                        <p style={{ textAlign: "center", fontWeight: "bold" }}>
+                            Loading medicines
+                            <span style={{ display: "inline-block" }}>
+                                <span style={{ animation: "dot1 1.4s infinite", marginRight: "2px" }}>.</span>
+                                <span style={{ animation: "dot2 1.4s infinite", marginRight: "2px" }}>.</span>
+                                <span style={{ animation: "dot3 1.4s infinite" }}>.</span>
+                            </span>
+                            <style>{`
+                                @keyframes dot1 { 0%, 20% { opacity: 0; } 40%, 100% { opacity: 1; } }
+                                @keyframes dot2 { 0%, 40% { opacity: 0; } 60%, 100% { opacity: 1; } }
+                                @keyframes dot3 { 0%, 60% { opacity: 0; } 80%, 100% { opacity: 1; } }
+                            `}</style>
+                        </p>
                     )}
                 </div>
             </div>
