@@ -24,10 +24,18 @@ export default function Header() {
     let isLoggedIn = false;
     let userRole = null;
 
-    if(token) {
-        isLoggedIn = true;
-        const decoded = jwtDecode(token);
-        userRole = decoded.role;
+    if (token) {
+        try {
+            const decoded = jwtDecode(token);
+            if (decoded.exp * 1000 < Date.now()) {
+                localStorage.removeItem("token");
+            } else {
+                isLoggedIn = true;
+                userRole = decoded.role;
+            }
+        } catch {
+            localStorage.removeItem("token");
+        }
     }
 
     return (
